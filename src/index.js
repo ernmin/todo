@@ -1,7 +1,7 @@
 import { format, compareAsc } from "date-fns";
 
 function TodoController() {
-    const todolist = projects();
+    const todolist = projectController();
     todolist.addProject(todolist.createProject('default'));
     todolist.listProjects();
 
@@ -12,10 +12,12 @@ function TodoController() {
         counter++;
     }
     todolist.listProjects();
-    
+    const addnewtask = todolist.getProject('default');
+    addnewtask.addTask('take out the trash');
+    console.log(todolist.getProject('default').getTask());
 }
 
-function projects() {
+function projectController() {
     let projects = [];
 
     function createProject(name) {
@@ -39,8 +41,10 @@ function projects() {
         const deleteTask = (taskItemNum) => {
             tasks.splice(taskItemNum, 1);
         }
+        const getTask = () => tasks;
         
-        return { name, task, addTask, deleteTask, }
+        
+        return { projectName, task, addTask, deleteTask, getTask}
     }
 
     function addProject(projectObject) {
@@ -63,10 +67,20 @@ function projects() {
         console.log('Projects:', projects);
         return projects;
       }
-
+    
+    function getProject(name) {
+        const targetProjectIndex = projects.findIndex(obj => obj.projectName === name);
+        if (targetProjectIndex > -1) {
+            const targetProject = projects[targetProjectIndex];
+            return targetProject;
+        }
+        else{
+            console.log('Project not found');
+        }
+    }
     
     
-    return { createProject, addProject, deleteProject, listProjects, };
+    return { createProject, addProject, deleteProject, listProjects, getProject, };
 }
 
 
