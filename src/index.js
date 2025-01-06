@@ -14,14 +14,14 @@ function TodoController() {
     todolist.listProjects();
     const addnewtask = todolist.getProject('default');
     addnewtask.addTask('take out the trash');
-    console.log(todolist.getProject('default').getTask());
+    console.log(todolist.getProject('default').getAllTasks());
     const deleteTaskFromProject = todolist.getProject('default');
     deleteTaskFromProject.deleteTask('take out the trash');
     deleteTaskFromProject.deleteTask('take out');
     addnewtask.addTask('take out the trash');
     const changePriority = todolist.getProject('default');
     changePriority.changeTaskPriority('take out the trash', 3);
-    console.log(todolist.getProject('default').getTask());
+    console.log(todolist.getProject('default').getAllTasks());
 
 }
 
@@ -44,32 +44,44 @@ function projectController() {
             tasks.push(newTask);  
         };
         const deleteTask = (description) => {
-            const targetTaskIndex = tasks.findIndex(obj => obj.title === description);
+            const targetTaskIndex = getTask(description);
             if (targetTaskIndex > -1) {
                 const removedTask = tasks.splice(targetTaskIndex, 1);
                 console.log('Task ', removedTask, ' was removed');
                 return removedTask[0];
             }
             else{
-                console.log('Task not found');
+                return;
             }
-            //tasks.splice(taskItemNum, 1);
+            
         }
-        const getTask = () => tasks;
+        const getAllTasks = () => tasks;
+
+        const getTask = (description) => {
+            const targetTaskIndex = tasks.findIndex(obj => obj.title === description);
+            if (targetTaskIndex > -1) {
+                console.log('targetTaskIndex is: ', targetTaskIndex);
+                return targetTaskIndex;
+            }
+            else{
+                console.log('task not found');
+                return null;
+            }
+        }
         
         const changeTaskPriority = (description, newPriority) => {
-            const targetTaskIndex = tasks.findIndex(obj => obj.title === description);
+            const targetTaskIndex = getTask(description);
             if (targetTaskIndex > -1) {
                 tasks[targetTaskIndex].priority = newPriority;
                 console.log('New Priority is: ', tasks[targetTaskIndex].priority)
                 return tasks[targetTaskIndex].priority;
             }
             else{
-                console.log('Task not found');
+                return;
             }
         }
         
-        return { projectName, task, addTask, deleteTask, getTask, changeTaskPriority, }
+        return { projectName, task, addTask, deleteTask, getAllTasks, getTask, changeTaskPriority, }
     }
 
     function addProject(projectObject) {
