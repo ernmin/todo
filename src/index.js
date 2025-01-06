@@ -18,7 +18,10 @@ function TodoController() {
     const deleteTaskFromProject = todolist.getProject('default');
     deleteTaskFromProject.deleteTask('take out the trash');
     deleteTaskFromProject.deleteTask('take out');
-
+    addnewtask.addTask('take out the trash');
+    const changePriority = todolist.getProject('default');
+    changePriority.changeTaskPriority('take out the trash', 3);
+    console.log(todolist.getProject('default').getTask());
 
 }
 
@@ -31,13 +34,10 @@ function projectController() {
         const task = (title) => {
             let completed = false;
             let priority = 1;
-            const changePriority = (newPriority) => {
-                priority = newPriority;
-            }
-            //add change priority method
+        
             //add change completed method
             //add duedate and due date method
-            return { title, completed, priority, changePriority, };
+            return { title, completed, priority, };
         } 
         const addTask = (description) => {
             const newTask = task(description);
@@ -57,8 +57,19 @@ function projectController() {
         }
         const getTask = () => tasks;
         
+        const changeTaskPriority = (description, newPriority) => {
+            const targetTaskIndex = tasks.findIndex(obj => obj.title === description);
+            if (targetTaskIndex > -1) {
+                tasks[targetTaskIndex].priority = newPriority;
+                console.log('New Priority is: ', tasks[targetTaskIndex].priority)
+                return tasks[targetTaskIndex].priority;
+            }
+            else{
+                console.log('Task not found');
+            }
+        }
         
-        return { projectName, task, addTask, deleteTask, getTask}
+        return { projectName, task, addTask, deleteTask, getTask, changeTaskPriority, }
     }
 
     function addProject(projectObject) {
