@@ -15,6 +15,11 @@ function TodoController() {
     const addnewtask = todolist.getProject('default');
     addnewtask.addTask('take out the trash');
     console.log(todolist.getProject('default').getTask());
+    const deleteTaskFromProject = todolist.getProject('default');
+    deleteTaskFromProject.deleteTask('take out the trash');
+    deleteTaskFromProject.deleteTask('take out');
+
+
 }
 
 function projectController() {
@@ -38,8 +43,17 @@ function projectController() {
             const newTask = task(description);
             tasks.push(newTask);  
         };
-        const deleteTask = (taskItemNum) => {
-            tasks.splice(taskItemNum, 1);
+        const deleteTask = (description) => {
+            const targetTaskIndex = tasks.findIndex(obj => obj.title === description);
+            if (targetTaskIndex > -1) {
+                const removedTask = tasks.splice(targetTaskIndex, 1);
+                console.log('Task ', removedTask, ' was removed');
+                return removedTask[0];
+            }
+            else{
+                console.log('Task not found');
+            }
+            //tasks.splice(taskItemNum, 1);
         }
         const getTask = () => tasks;
         
