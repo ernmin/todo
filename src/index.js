@@ -21,6 +21,7 @@ function TodoController() {
     addnewtask.addTask('take out the trash');
     const changePriority = todolist.getProject('default');
     changePriority.changeTaskPriority('take out the trash', 3);
+    changePriority.changeTaskComplete('take out the trash');
     console.log(todolist.getProject('default').getAllTasks());
 
 }
@@ -41,7 +42,18 @@ function projectController() {
         } 
         const addTask = (description) => {
             const newTask = task(description);
-            tasks.push(newTask);  
+            tasks.push(newTask);
+            /*if(getTask(description) > -1){
+                console.log('task already exists');
+                return;
+            }
+            else{
+                tasks.push(newTask);
+                console.log(newTask, ' was added');
+                return;
+            }*/
+            
+            //cannot add duplicate tasks
         };
         const deleteTask = (description) => {
             const targetTaskIndex = getTask(description);
@@ -80,12 +92,25 @@ function projectController() {
                 return;
             }
         }
+
+        const changeTaskComplete = (description) => {
+            const targetTaskIndex = getTask(description);
+            if (targetTaskIndex > -1) {
+                tasks[targetTaskIndex].completed = !tasks[targetTaskIndex].completed;
+                console.log('Task complete status is: ', tasks[targetTaskIndex].completed)
+                return tasks[targetTaskIndex].completed;
+            }
+            else{
+                return;
+            }
+        }
         
-        return { projectName, task, addTask, deleteTask, getAllTasks, getTask, changeTaskPriority, }
+        return { projectName, task, addTask, deleteTask, getAllTasks, getTask, changeTaskPriority, changeTaskComplete, }
     }
 
     function addProject(projectObject) {
         projects.push(projectObject);
+        //cannot add duplicate projects?
     }
 
     function deleteProject(name) {
