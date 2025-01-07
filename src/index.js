@@ -23,6 +23,7 @@ function TodoController() {
     changePriority.changeTaskPriority('take out the trash', 3);
     changePriority.changeTaskComplete('take out the trash');
     console.log(todolist.getProject('default').getAllTasks());
+    addnewtask.addTask('take out the trash'); //test duplicate
 
 }
 
@@ -36,14 +37,15 @@ function projectController() {
             let completed = false;
             let priority = 1;
         
-            //add change completed method
             //add duedate and due date method
             return { title, completed, priority, };
         } 
         const addTask = (description) => {
             const newTask = task(description);
-            tasks.push(newTask);
-            /*if(getTask(description) > -1){
+            const checkTask = getTask(description);
+            
+            //tasks.push(newTask);
+            if(checkTask > -1){
                 console.log('task already exists');
                 return;
             }
@@ -51,7 +53,7 @@ function projectController() {
                 tasks.push(newTask);
                 console.log(newTask, ' was added');
                 return;
-            }*/
+            }
             
             //cannot add duplicate tasks
         };
@@ -77,7 +79,7 @@ function projectController() {
             }
             else{
                 console.log('task not found');
-                return null;
+                return;
             }
         }
         
