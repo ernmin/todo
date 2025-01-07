@@ -3,6 +3,7 @@ import { format, compareAsc } from "date-fns";
 function TodoController() {
     const todolist = projectController();
     todolist.addProject(todolist.createProject('default'));
+    todolist.addProject(todolist.createProject('default')); //test duplicate project
     todolist.listProjects();
 
     let counter = 0;
@@ -111,7 +112,17 @@ function projectController() {
     }
 
     function addProject(projectObject) {
-        projects.push(projectObject);
+        const targetProjectIndex = projects.findIndex(obj => obj.projectName === projectObject.projectName);
+        if (targetProjectIndex > -1) {
+            console.log('Project already exists, choose a different name');
+        }
+        else{
+            const addedProject = projects.push(projectObject);
+            console.log('Project ', addedProject, ' was added');
+            return addedProject[0];
+            
+        }
+        //projects.push(projectObject);
         //cannot add duplicate projects?
     }
 
