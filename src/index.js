@@ -1,4 +1,4 @@
-import { format, compareAsc } from "date-fns";
+import { format, compareAsc, } from "date-fns";
 
 function TodoController() {
     const todolist = projectController();
@@ -24,7 +24,16 @@ function TodoController() {
     changePriority.changeTaskPriority('take out the trash', 3);
     changePriority.changeTaskComplete('take out the trash');
     console.log(todolist.getProject('default').getAllTasks());
-    addnewtask.addTask('take out the trash'); //test duplicate
+    addnewtask.addTask('take out the trash');
+    todolist.addProject(todolist.createProject('diffprojsametask'));
+    const othernewtask = todolist.getProject('diffprojsametask');
+    othernewtask.addTask('take out the trash');
+    console.log(othernewtask.getAllTasks());
+    todolist.listProjects();
+    const newDate = new Date(2025, 6, 2) //think about how to input dates when changing the format
+    othernewtask.changedueDate('take out the trash', newDate);
+    console.log(othernewtask.getAllTasks());
+    
 
 }
 
@@ -37,10 +46,25 @@ function projectController() {
         const task = (title) => {
             let completed = false;
             let priority = 1;
+            const today = new Date();
+            let dueDate = format(today, 'dd-MM-yyyy')
         
             //add duedate and due date method
-            return { title, completed, priority, };
+            return { title, completed, priority, dueDate, };
         } 
+
+        const changedueDate = (description, date) => {
+            const targetTaskIndex = getTask(description);
+            if (targetTaskIndex > -1) {
+                    tasks[targetTaskIndex].dueDate = date;
+                    console.log('New due date is: ', tasks[targetTaskIndex].dueDate)
+                    return tasks[targetTaskIndex].dueDate;
+                }
+                else{
+                    return;
+                }
+        } //how to key in proper dates from the front end?
+
         const addTask = (description) => {
             const newTask = task(description);
             const checkTask = getTask(description);
@@ -87,9 +111,18 @@ function projectController() {
         const changeTaskPriority = (description, newPriority) => {
             const targetTaskIndex = getTask(description);
             if (targetTaskIndex > -1) {
-                tasks[targetTaskIndex].priority = newPriority;
-                console.log('New Priority is: ', tasks[targetTaskIndex].priority)
-                return tasks[targetTaskIndex].priority;
+                if (newPriority > 0 && newPriority < 6){
+                    return;
+                }
+                else if(tasks[targetTaskIndex].priority === newPriority){
+                    console.log('Priority is unchanged');
+                    return;
+                }
+                else{
+                    tasks[targetTaskIndex].priority = newPriority;
+                    console.log('New Priority is: ', tasks[targetTaskIndex].priority)
+                    return tasks[targetTaskIndex].priority;
+                }
             }
             else{
                 return;
@@ -108,7 +141,7 @@ function projectController() {
             }
         }
         
-        return { projectName, task, addTask, deleteTask, getAllTasks, getTask, changeTaskPriority, changeTaskComplete, }
+        return { projectName, task, addTask, deleteTask, getAllTasks, getTask, changeTaskPriority, changeTaskComplete, changedueDate, }
     }
 
     function addProject(projectObject) {
@@ -122,8 +155,6 @@ function projectController() {
             return addedProject[0];
             
         }
-        //projects.push(projectObject);
-        //cannot add duplicate projects?
     }
 
     function deleteProject(name) {
