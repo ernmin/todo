@@ -30,7 +30,7 @@ function TodoController() {
     othernewtask.addTask('take out the trash');
     console.log(othernewtask.getAllTasks());
     todolist.listProjects();
-    const newDate = new Date(2025, 6, 2) //think about how to input dates when changing the format
+    const newDate = '2000-05-03'; //think about how to input dates when changing the format
     othernewtask.changedueDate('take out the trash', newDate);
     console.log(othernewtask.getAllTasks());
     
@@ -46,8 +46,7 @@ function projectController() {
         const task = (title) => {
             let completed = false;
             let priority = 1;
-            const today = new Date();
-            let dueDate = format(today, 'dd-MM-yyyy')
+            let dueDate = new Date();
         
             //add duedate and due date method
             return { title, completed, priority, dueDate, };
@@ -56,14 +55,15 @@ function projectController() {
         const changedueDate = (description, date) => {
             const targetTaskIndex = getTask(description);
             if (targetTaskIndex > -1) {
-                    tasks[targetTaskIndex].dueDate = date;
-                    console.log('New due date is: ', tasks[targetTaskIndex].dueDate)
+                    tasks[targetTaskIndex].dueDate = new Date(date);
+                    console.log('New due date is: ', format(tasks[targetTaskIndex].dueDate, 'yyyy-MM-dd'));
                     return tasks[targetTaskIndex].dueDate;
                 }
                 else{
                     return;
                 }
-        } //how to key in proper dates from the front end?
+        } //date must be in the format of (YYYY-MM-DD) since
+        //HTML form <input type=date id=dateInput> will produce this format
 
         const addTask = (description) => {
             const newTask = task(description);
@@ -112,6 +112,7 @@ function projectController() {
             const targetTaskIndex = getTask(description);
             if (targetTaskIndex > -1) {
                 if (newPriority > 0 && newPriority < 6){
+                    console.log('Please enter a priority from 1 to 5 instead');
                     return;
                 }
                 else if(tasks[targetTaskIndex].priority === newPriority){
@@ -198,6 +199,7 @@ function ScreenController() {
     //create form for projects
     //create form for tasks
     //refresh screen after a project/task is added
+    //for the date object, use the format method to output the correct format
 }
 
 //add local storage
