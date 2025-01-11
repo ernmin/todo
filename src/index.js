@@ -2,6 +2,7 @@ import { format, compareAsc, } from "date-fns";
 
 function TodoController() {
     const todolist = projectController();
+    console.log(typeof todolist);
     todolist.addProject(todolist.createProject('default'));
     todolist.addProject(todolist.createProject('default')); //test duplicate project
     todolist.listProjects();
