@@ -40,10 +40,21 @@ function TodoController() {
 
 function projectController() {
     let projects = [];
+    let projectTitles = [];
 
     function createProject(name) {
         const projectName = name;
         let tasks = [];
+        const storeAllTasks = () => {
+            let alltasksarray_serialized = JSON.stringify(tasks);
+            console.log('serialize test', alltasksarray_serialized);
+            let taskKey = tasks[0].project;
+            localStorage.setItem(taskKey, alltasksarray_serialized);
+            //item goes into local storage. If I set item a second time with a different key, it will be written over
+            let taskObject_reversed = JSON.parse(localStorage.getItem(taskKey));
+            //item is taken out of local storage
+            console.log('parse test', taskObject_reversed);
+        }
         const task = (title) => {
             let completed = false;
             let priority = 1;
@@ -80,6 +91,7 @@ function projectController() {
             else{
                 storeTask(newTask);
                 tasks.push(newTask);
+                storeAllTasks();
                 console.log(newTask, ' was added');
                 return;
             }
@@ -99,6 +111,12 @@ function projectController() {
             taskObject_reversed.dueDate = new Date(taskObject_reversed.dueDate);
             console.log('changed duedate test', taskObject_reversed, 'duedate type is:', typeof taskObject_reversed.dueDate);
             //do this to retrieve the date
+
+
+            //store the array of tasks for that project in local storage.
+
+
+            //after retrieving the array of tasks, recreate the dates as above using new Date()
         }
 
         const deleteTask = (description) => {
@@ -161,7 +179,7 @@ function projectController() {
             }
         }
         
-        return { projectName, task, addTask, storeTask, deleteTask, getAllTasks, getTask, changeTaskPriority, changeTaskComplete, changedueDate, }
+        return { projectName, task, addTask, storeTask, storeAllTasks, deleteTask, getAllTasks, getTask, changeTaskPriority, changeTaskComplete, changedueDate, }
     }
 
     function addProject(projectObject) {
@@ -171,7 +189,6 @@ function projectController() {
         }
         else{
             const addedProject = projects.push(projectObject);
-            storeProject(projectObject);
             console.log('Project ', addedProject, ' was added');
             return addedProject[0];
             
@@ -182,16 +199,11 @@ function projectController() {
 
         localStorage.setItem(project.projectName, project.projectName);
         console.log(localStorage.getItem(project.projectName));
-        /*let projectObject_serialized = JSON.stringify(name);
-        console.log('serialize test', taskObject_serialized);
-        let taskKey = newTask.project + ' ' + newTask.title;
-        localStorage.setItem(taskKey, taskObject_serialized);
-        //item goes into local storage. If I set item a second time with a different key, it will be written over
-        let taskObject_reversed = JSON.parse(localStorage.getItem(taskKey));
-        //item is taken out of local storage
-        console.log('parse test', taskObject_reversed);*/
 
-        //create new project object to store containing the project name
+        //store an array of the titles of the projects
+        //when retrieving loop through the array and recreate the project from scratch
+        //add the recreated project into the main project array.
+        
         //key can just be the project name
 
     }
