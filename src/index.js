@@ -171,10 +171,29 @@ function projectController() {
         }
         else{
             const addedProject = projects.push(projectObject);
+            storeProject(projectObject);
             console.log('Project ', addedProject, ' was added');
             return addedProject[0];
             
         }
+    }
+
+    function storeProject(project) {
+
+        localStorage.setItem(project.projectName, project.projectName);
+        console.log(localStorage.getItem(project.projectName));
+        /*let projectObject_serialized = JSON.stringify(name);
+        console.log('serialize test', taskObject_serialized);
+        let taskKey = newTask.project + ' ' + newTask.title;
+        localStorage.setItem(taskKey, taskObject_serialized);
+        //item goes into local storage. If I set item a second time with a different key, it will be written over
+        let taskObject_reversed = JSON.parse(localStorage.getItem(taskKey));
+        //item is taken out of local storage
+        console.log('parse test', taskObject_reversed);*/
+
+        //create new project object to store containing the project name
+        //key can just be the project name
+
     }
 
     function deleteProject(name) {
@@ -206,7 +225,7 @@ function projectController() {
     }
     
     
-    return { createProject, addProject, deleteProject, listProjects, getProject, };
+    return { createProject, addProject, storeProject, deleteProject, listProjects, getProject, };
 }
 
 
