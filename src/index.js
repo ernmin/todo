@@ -90,9 +90,10 @@ function projectController() {
         const storeTask = (newTask) => {
             let taskObject_serialized = JSON.stringify(newTask);
             console.log('serialize test', taskObject_serialized);
-            localStorage.setItem(newTask.project, taskObject_serialized);
+            let taskKey = newTask.project + ' ' + newTask.title;
+            localStorage.setItem(taskKey, taskObject_serialized);
             //item goes into local storage. If I set item a second time with a different key, it will be written over
-            let taskObject_reversed = JSON.parse(localStorage.getItem(newTask.project));
+            let taskObject_reversed = JSON.parse(localStorage.getItem(taskKey));
             //item is taken out of local storage
             console.log('parse test', taskObject_reversed);
             taskObject_reversed.dueDate = new Date(taskObject_reversed.dueDate);
