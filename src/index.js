@@ -21,6 +21,7 @@ function TodoController() {
     deleteTaskFromProject.deleteTask('take out the trash');
     deleteTaskFromProject.deleteTask('take out');
     addnewtask.addTask('take out the trash');
+    addnewtask.addTask('do the dishes');
     const changePriority = todolist.getProject('default');
     changePriority.changeTaskPriority('take out the trash', 3);
     changePriority.changeTaskComplete('take out the trash');
@@ -35,7 +36,7 @@ function TodoController() {
     othernewtask.changedueDate('take out the trash', newDate);
     console.log(othernewtask.getAllTasks());
     
-
+    //REMOVE OTHER PROJECTS EXCEPT DEFAULT TO SEE IF WORKING
 }
 
 function projectController() {
@@ -112,10 +113,8 @@ function projectController() {
             console.log('changed duedate test', taskObject_reversed, 'duedate type is:', typeof taskObject_reversed.dueDate);
             //do this to retrieve the date
 
-
+            //CHECK IF NEED STORETASK METHOD AT ALL IF ALREADY STORING ALL TASKS PER PROJECT
             //store the array of tasks for that project in local storage.
-
-
             //after retrieving the array of tasks, recreate the dates as above using new Date()
         }
 
@@ -189,21 +188,24 @@ function projectController() {
         }
         else{
             const addedProject = projects.push(projectObject);
+            projectTitles.push(projectObject.projectName);
+            storeProject();
             console.log('Project ', addedProject, ' was added');
             return addedProject[0];
             
         }
     }
 
-    function storeProject(project) {
+    function storeProject() {
 
-        localStorage.setItem(project.projectName, project.projectName);
-        console.log(localStorage.getItem(project.projectName));
+        localStorage.setItem('projectTitles', JSON.stringify(projectTitles));
+        let listofProjects = localStorage.getItem('projectTitles');
+        let listofProjectsArray = JSON.parse(listofProjects);
+        console.log('list of projects: ', listofProjectsArray);
 
         //store an array of the titles of the projects
         //when retrieving loop through the array and recreate the project from scratch
         //add the recreated project into the main project array.
-        
         //key can just be the project name
 
     }
