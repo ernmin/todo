@@ -48,9 +48,10 @@ function projectController() {
             let completed = false;
             let priority = 1;
             let dueDate = new Date();
+            let project = name;
         
             //add duedate and due date method
-            return { title, completed, priority, dueDate, };
+            return { title, completed, priority, dueDate, project};
         } 
 
         const changedueDate = (description, date) => {
@@ -68,6 +69,7 @@ function projectController() {
 
         const addTask = (description) => {
             const newTask = task(description);
+            console.log('check new task', newTask);
             const checkTask = getTask(description);
             
             //tasks.push(newTask);
@@ -76,6 +78,7 @@ function projectController() {
                 return;
             }
             else{
+                storeTask(newTask);
                 tasks.push(newTask);
                 console.log(newTask, ' was added');
                 return;
@@ -83,6 +86,20 @@ function projectController() {
             
             //cannot add duplicate tasks
         };
+
+        const storeTask = (newTask) => {
+            let taskObject_serialized = JSON.stringify(newTask);
+            console.log('serialize test', taskObject_serialized);
+            localStorage.setItem(newTask.project, taskObject_serialized);
+            //item goes into local storage. If I set item a second time with a different key, it will be written over
+            let taskObject_reversed = JSON.parse(localStorage.getItem(newTask.project));
+            //item is taken out of local storage
+            console.log('parse test', taskObject_reversed);
+            taskObject_reversed.dueDate = new Date(taskObject_reversed.dueDate);
+            console.log('changed duedate test', taskObject_reversed, 'duedate type is:', typeof taskObject_reversed.dueDate);
+            //do this to retrieve the date
+        }
+
         const deleteTask = (description) => {
             const targetTaskIndex = getTask(description);
             if (targetTaskIndex > -1) {
@@ -143,7 +160,7 @@ function projectController() {
             }
         }
         
-        return { projectName, task, addTask, deleteTask, getAllTasks, getTask, changeTaskPriority, changeTaskComplete, changedueDate, }
+        return { projectName, task, addTask, storeTask, deleteTask, getAllTasks, getTask, changeTaskPriority, changeTaskComplete, changedueDate, }
     }
 
     function addProject(projectObject) {
