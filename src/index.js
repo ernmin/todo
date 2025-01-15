@@ -2,6 +2,7 @@ import { format, compareAsc, } from "date-fns";
 
 function TodoController() {
     const todolist = projectController();
+    todolist.retrieveProject();
     console.log(typeof todolist);
     todolist.addProject(todolist.createProject('default'));
     todolist.addProject(todolist.createProject('default')); //test duplicate project
@@ -14,7 +15,7 @@ function TodoController() {
         counter++;
     }
     todolist.listProjects();
-    const addnewtask = todolist.getProject('default');
+    /*const addnewtask = todolist.getProject('default');
     addnewtask.addTask('take out the trash');
     console.log(todolist.getProject('default').getAllTasks());
     const deleteTaskFromProject = todolist.getProject('default');
@@ -34,7 +35,7 @@ function TodoController() {
     todolist.listProjects();
     const newDate = '2000-05-03'; //think about how to input dates when changing the format
     othernewtask.changedueDate('take out the trash', newDate);
-    console.log(othernewtask.getAllTasks());
+    console.log(othernewtask.getAllTasks());*/
     
     //REMOVE OTHER PROJECTS EXCEPT DEFAULT TO SEE IF WORKING
 }
@@ -238,9 +239,22 @@ function projectController() {
         }
     }
     
+    function retrieveProject() {
+        let listofProjects = localStorage.getItem('projectTitles');
+        if (listofProjects == null){
+            return;
+        }
+        let listofProjectsArray = JSON.parse(listofProjects);
+        for(let i = 0; i < listofProjectsArray.length; i++){
+            let project = createProject(listofProjectsArray[i]);
+            addProject(project);
+            console.log('project: ', project.projectName, ' was retrieved');
+        }
+    }
     
-    return { createProject, addProject, storeProject, deleteProject, listProjects, getProject, };
+    return { createProject, addProject, storeProject, retrieveProject, deleteProject, listProjects, getProject, };
 }
+
 
 
 
