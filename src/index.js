@@ -191,7 +191,7 @@ function projectController() {
             const addedProject = projects.push(projectObject);
             projectTitles.push(projectObject.projectName);
             storeProject();
-            console.log('Project ', addedProject, ' was added');
+            console.log('Project ', projectObject.projectName, ' was added');
             return addedProject[0];
             
         }
@@ -242,6 +242,7 @@ function projectController() {
     function retrieveProject() {
         let listofProjects = localStorage.getItem('projectTitles');
         if (listofProjects == null){
+            console.log('no projects to retrieve');
             return;
         }
         let listofProjectsArray = JSON.parse(listofProjects);
@@ -251,6 +252,23 @@ function projectController() {
             console.log('project: ', project.projectName, ' was retrieved');
         }
     }
+
+    function retrieveTasks(projectName) {
+        let tasksofProject = localStorage.getItem(projectName);
+        if (tasksofProject == null) {
+            console.log('no tasks for ', projectName, ' to retrieve');
+            return;
+        }
+        else {
+            let tasksofProject_unserialized = JSON.parse(tasksofProject);
+            for(let i = 0; i < tasksofProject_unserialized.length; i++){
+                
+            }
+        }
+    }
+    
+
+    //WRITE RETRIEVE TASKS FUNCTION/METHOD
     
     return { createProject, addProject, storeProject, retrieveProject, deleteProject, listProjects, getProject, };
 }
