@@ -15,9 +15,12 @@ function TodoController() {
         counter++;
     }
     todolist.listProjects();
-    /*const addnewtask = todolist.getProject('default');
-    addnewtask.addTask('take out the trash');
+    const addnewtask = todolist.getProject('default');
+    /*addnewtask.addTask('take out the trash');
+    addnewtask.addTask('do the dishes');
+    addnewtask.addTask('sweep the floor');*/
     console.log(todolist.getProject('default').getAllTasks());
+    /*
     const deleteTaskFromProject = todolist.getProject('default');
     deleteTaskFromProject.deleteTask('take out the trash');
     deleteTaskFromProject.deleteTask('take out');
@@ -91,7 +94,7 @@ function projectController() {
                 return;
             }
             else{
-                storeTask(newTask);
+                /*storeTask(newTask);*/
                 tasks.push(newTask);
                 storeAllTasks();
                 console.log(newTask, ' was added');
@@ -101,7 +104,7 @@ function projectController() {
             //cannot add duplicate tasks
         };
 
-        const storeTask = (newTask) => {
+        /*const storeTask = (newTask) => {
             let taskObject_serialized = JSON.stringify(newTask);
             console.log('serialize test', taskObject_serialized);
             let taskKey = newTask.project + ' ' + newTask.title;
@@ -117,7 +120,7 @@ function projectController() {
             //CHECK IF NEED STORETASK METHOD AT ALL IF ALREADY STORING ALL TASKS PER PROJECT
             //store the array of tasks for that project in local storage.
             //after retrieving the array of tasks, recreate the dates as above using new Date()
-        }
+        }*/
 
         const deleteTask = (description) => {
             const targetTaskIndex = getTask(description);
@@ -179,7 +182,7 @@ function projectController() {
             }
         }
         
-        return { projectName, task, addTask, storeTask, storeAllTasks, deleteTask, getAllTasks, getTask, changeTaskPriority, changeTaskComplete, changedueDate, }
+        return { projectName, task, addTask, /*storeTask,*/ storeAllTasks, deleteTask, getAllTasks, getTask, changeTaskPriority, changeTaskComplete, changedueDate, }
     }
 
     function addProject(projectObject) {
@@ -249,6 +252,7 @@ function projectController() {
         for(let i = 0; i < listofProjectsArray.length; i++){
             let project = createProject(listofProjectsArray[i]);
             addProject(project);
+            retrieveTasks(project.projectName);
             console.log('project: ', project.projectName, ' was retrieved');
         }
     }
@@ -262,10 +266,17 @@ function projectController() {
         else {
             let tasksofProject_unserialized = JSON.parse(tasksofProject);
             for(let i = 0; i < tasksofProject_unserialized.length; i++){
-                
+                tasksofProject_unserialized[i].dueDate = new Date(tasksofProject_unserialized[i].dueDate);
+                console.log(tasksofProject_unserialized[i].dueDate);
+                /*projects[getProject(projectName)].addTask(tasksofProject_unserialized[i]);*/
+                //HOW TO ADD THE TASK AFTER RETRIEVING IT FROM HERE?
             }
         }
     }
+
+    //THIS SHOULD BE A METHOD IN THE TASKS FACTORY FUNCTION
+    //use the variable where the projectcontroller is stored, get project method then use retrieve tasks method
+    //THINK ABOUT HOW TO GET ALL PROJECTS INSTEAD OF GETTING ONE PROJECT THROUGH THE NAME
     
 
     //WRITE RETRIEVE TASKS FUNCTION/METHOD
