@@ -16,6 +16,7 @@ function TodoController() {
     }
     todolist.listProjects();
     const addnewtask = todolist.getProject('default');
+    addnewtask.retrieveTasks('default');
     /*addnewtask.addTask('take out the trash');
     addnewtask.addTask('do the dishes');
     addnewtask.addTask('sweep the floor');*/
@@ -40,7 +41,6 @@ function TodoController() {
     othernewtask.changedueDate('take out the trash', newDate);
     console.log(othernewtask.getAllTasks());*/
     
-    //REMOVE OTHER PROJECTS EXCEPT DEFAULT TO SEE IF WORKING
 }
 
 function projectController() {
@@ -66,7 +66,6 @@ function projectController() {
             let dueDate = new Date();
             let project = name;
         
-            //add duedate and due date method
             return { title, completed, priority, dueDate, project};
         } 
 
@@ -104,23 +103,7 @@ function projectController() {
             //cannot add duplicate tasks
         };
 
-        /*const storeTask = (newTask) => {
-            let taskObject_serialized = JSON.stringify(newTask);
-            console.log('serialize test', taskObject_serialized);
-            let taskKey = newTask.project + ' ' + newTask.title;
-            localStorage.setItem(taskKey, taskObject_serialized);
-            //item goes into local storage. If I set item a second time with a different key, it will be written over
-            let taskObject_reversed = JSON.parse(localStorage.getItem(taskKey));
-            //item is taken out of local storage
-            console.log('parse test', taskObject_reversed);
-            taskObject_reversed.dueDate = new Date(taskObject_reversed.dueDate);
-            console.log('changed duedate test', taskObject_reversed, 'duedate type is:', typeof taskObject_reversed.dueDate);
-            //do this to retrieve the date
 
-            //CHECK IF NEED STORETASK METHOD AT ALL IF ALREADY STORING ALL TASKS PER PROJECT
-            //store the array of tasks for that project in local storage.
-            //after retrieving the array of tasks, recreate the dates as above using new Date()
-        }*/
 
         const deleteTask = (description) => {
             const targetTaskIndex = getTask(description);
@@ -181,8 +164,26 @@ function projectController() {
                 return;
             }
         }
+
+        const retrieveTasks = (projectName) => {
+            let tasksofProject = localStorage.getItem(projectName);
+            if (tasksofProject == null) {
+                console.log('no tasks for ', projectName, ' to retrieve');
+                return;
+            }
+            else {
+                let tasksofProject_unserialized = JSON.parse(tasksofProject);
+                for(let i = 0; i < tasksofProject_unserialized.length; i++){
+                    tasksofProject_unserialized[i].dueDate = new Date(tasksofProject_unserialized[i].dueDate);
+                    console.log(tasksofProject_unserialized[i].dueDate);
+                    tasks.push(tasksofProject_unserialized[i]);
+                    /*projects[getProject(projectName)].addTask(tasksofProject_unserialized[i]);*/
+                    //HOW TO ADD THE TASK AFTER RETRIEVING IT FROM HERE?
+                }
+            }
+        }
         
-        return { projectName, task, addTask, /*storeTask,*/ storeAllTasks, deleteTask, getAllTasks, getTask, changeTaskPriority, changeTaskComplete, changedueDate, }
+        return { projectName, task, addTask, retrieveTasks, storeAllTasks, deleteTask, getAllTasks, getTask, changeTaskPriority, changeTaskComplete, changedueDate, }
     }
 
     function addProject(projectObject) {
@@ -252,29 +253,11 @@ function projectController() {
         for(let i = 0; i < listofProjectsArray.length; i++){
             let project = createProject(listofProjectsArray[i]);
             addProject(project);
-            retrieveTasks(project.projectName);
             console.log('project: ', project.projectName, ' was retrieved');
         }
     }
 
-    function retrieveTasks(projectName) {
-        let tasksofProject = localStorage.getItem(projectName);
-        if (tasksofProject == null) {
-            console.log('no tasks for ', projectName, ' to retrieve');
-            return;
-        }
-        else {
-            let tasksofProject_unserialized = JSON.parse(tasksofProject);
-            for(let i = 0; i < tasksofProject_unserialized.length; i++){
-                tasksofProject_unserialized[i].dueDate = new Date(tasksofProject_unserialized[i].dueDate);
-                console.log(tasksofProject_unserialized[i].dueDate);
-                /*projects[getProject(projectName)].addTask(tasksofProject_unserialized[i]);*/
-                //HOW TO ADD THE TASK AFTER RETRIEVING IT FROM HERE?
-            }
-        }
-    }
-
-    //THIS SHOULD BE A METHOD IN THE TASKS FACTORY FUNCTION
+    
     //use the variable where the projectcontroller is stored, get project method then use retrieve tasks method
     //THINK ABOUT HOW TO GET ALL PROJECTS INSTEAD OF GETTING ONE PROJECT THROUGH THE NAME
     
