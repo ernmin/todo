@@ -14,12 +14,16 @@ function TodoController() {
         todolist.addProject(todolist.createProject(projectName));
         counter++;
     }
-    todolist.listProjects();
-    const addnewtask = todolist.getProject('default');
-    addnewtask.retrieveTasks('default');
-    /*addnewtask.addTask('take out the trash');
+    const allProjects = todolist.listProjects();
+    console.log('allprojects: ',allProjects);
+    for(let i = 0; i< allProjects.length; i++){
+        allProjects[i].retrieveTasks(allProjects[i].projectName);
+        console.log(allProjects[i].getAllTasks);
+    }
+    /*const addnewtask = todolist.getProject('a');
+    addnewtask.addTask('take out the trash');
     addnewtask.addTask('do the dishes');
-    addnewtask.addTask('sweep the floor');*/
+    addnewtask.addTask('sweep the floor');
     console.log(todolist.getProject('default').getAllTasks());
     /*
     const deleteTaskFromProject = todolist.getProject('default');
@@ -86,14 +90,11 @@ function projectController() {
             const newTask = task(description);
             console.log('check new task', newTask);
             const checkTask = getTask(description);
-            
-            //tasks.push(newTask);
             if(checkTask > -1){
                 console.log('task already exists');
                 return;
             }
             else{
-                /*storeTask(newTask);*/
                 tasks.push(newTask);
                 storeAllTasks();
                 console.log(newTask, ' was added');
@@ -102,8 +103,6 @@ function projectController() {
             
             //cannot add duplicate tasks
         };
-
-
 
         const deleteTask = (description) => {
             const targetTaskIndex = getTask(description);
@@ -175,10 +174,8 @@ function projectController() {
                 let tasksofProject_unserialized = JSON.parse(tasksofProject);
                 for(let i = 0; i < tasksofProject_unserialized.length; i++){
                     tasksofProject_unserialized[i].dueDate = new Date(tasksofProject_unserialized[i].dueDate);
-                    console.log(tasksofProject_unserialized[i].dueDate);
                     tasks.push(tasksofProject_unserialized[i]);
-                    /*projects[getProject(projectName)].addTask(tasksofProject_unserialized[i]);*/
-                    //HOW TO ADD THE TASK AFTER RETRIEVING IT FROM HERE?
+                    console.log(tasksofProject_unserialized[i], ' was added to ', projectName);
                 }
             }
         }
@@ -256,20 +253,9 @@ function projectController() {
             console.log('project: ', project.projectName, ' was retrieved');
         }
     }
-
-    
-    //use the variable where the projectcontroller is stored, get project method then use retrieve tasks method
-    //THINK ABOUT HOW TO GET ALL PROJECTS INSTEAD OF GETTING ONE PROJECT THROUGH THE NAME
-    
-
-    //WRITE RETRIEVE TASKS FUNCTION/METHOD
     
     return { createProject, addProject, storeProject, retrieveProject, deleteProject, listProjects, getProject, };
 }
-
-
-
-
 
 
 function ScreenController() {
@@ -279,7 +265,5 @@ function ScreenController() {
     //refresh screen after a project/task is added
     //for the date object, use the format method to output the correct format
 }
-
-//add local storage
 
 TodoController();
