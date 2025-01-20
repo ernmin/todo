@@ -16,16 +16,37 @@
         </div>
     </nav>
 
+    <div class="container-main">
+        <div class="container-projects">
+
+        </div>
+        <div>
+            
+            <!--Create Modal for book form-->
+        </div>
+        <div class="window" id="pop-up">
+            <div class="window-header">
+                <div class="title">New Project</div>
+                <button data-close-button class="close-button">&times;</button>
+            </div>
+            <form id="newbookform">
+                <div class="window-body">
+                    <div class="title-project">
+                        <div>
+                            <label for="project-title">Project</label>
+                            <input type="text" id="project-title" name="title" maxlength="50" required>
+                        </div>
     
-    <header id="header"></header>
-        
-        <nav>
-            <button id="home">Home</button>
-            <button id="menu">Menu</button>
-            <button id="about">About</button>
-        </nav>
-    </header>
-    <div id="content">
+                    </div>
+    
+                    <button type="submit" class="btn btn-primary btn-submit" id="submit">Submit</button>
+                </div>
+            </form>
+        </div>
+        <div id="overlay-bg"></div>
+        <div class="bottom-bar">
+            <button data-modal-target="#pop-up" class="btn btn-primary" >+ New Project</button>
+        </div>
 
     </div>
     

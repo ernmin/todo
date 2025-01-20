@@ -1,4 +1,5 @@
 import { format, compareAsc, } from "date-fns";
+import "./styles.css"
 
 function TodoController() {
     const todolist = projectController();
@@ -44,6 +45,44 @@ function TodoController() {
     const newDate = '2000-05-03'; //think about how to input dates when changing the format
     othernewtask.changedueDate('take out the trash', newDate);
     console.log(othernewtask.getAllTasks());*/
+
+
+    //create container for cards
+    //create form for projects
+    //create form for tasks
+    //refresh screen after a project/task is added
+    //for the date object, use the format method to output the correct format
+
+
+    const openModalButtons = document.querySelectorAll('[data-modal-target]');
+    const closeModalButtons = document.querySelectorAll('[data-close-button]');
+    const overlay = document.getElementById('overlay-bg');
+
+    openModalButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const modal = document.querySelector(button.dataset.modalTarget)
+            openModal(modal);
+        })
+    })
+
+    closeModalButtons.forEach(button => {
+        button.addEventListener('click', () =>{
+            const modal = button.closest('.window');
+            closeModal(modal);
+        })
+    })
+
+    const openModal = (modal) => {
+        if (modal == null) return;
+        modal.classList.add('bg-active');
+        overlay.classList.add('bg-active');
+    }
+
+    const closeModal = (modal) => {
+        if (modal == null) return;
+        modal.classList.remove('bg-active');
+        overlay.classList.remove('bg-active');
+    }
     
 }
 
@@ -258,12 +297,5 @@ function projectController() {
 }
 
 
-function ScreenController() {
-    //create container for cards
-    //create form for projects
-    //create form for tasks
-    //refresh screen after a project/task is added
-    //for the date object, use the format method to output the correct format
-}
 
 TodoController();
