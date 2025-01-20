@@ -39,17 +39,17 @@
 .window-body {
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 2fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
     padding: 10px 15px;
     gap: 15px;
 }
 
 .window-body > div {
-    max-width: 93%;
+    max-width: 100%;
 }
 
 .window-body button {
-    max-width: 93%;
+    max-width: 100%;
 }
 
 .title-project {
@@ -111,12 +111,12 @@ input {
     background-color: white;
 }
 
-.books {
+.projects {
     display: grid;
     grid-template-columns: repeat(auto-fit, 400px);
 }
 
-.book-card {
+.project-card {
     height: 400px;
     width: 80%;
     max-width: 230px;
@@ -129,6 +129,10 @@ input {
     display: grid;
     grid-template-rows: 1fr 2fr;
     row-gap: 50px;
+}
+
+.title-field{
+    gap: 10px;
 }
 
 .card-title {
@@ -188,16 +192,17 @@ input[type="checkbox"] {
     width: 90%;
 }
 
-@media (min-width: 1400px){
-    .books{
+@media (min-width: 1200px){
+    .projects{
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-columns: repeat(auto-fit, 400px);
+        justify-content: center;
         margin-left: 200px;
         margin-right: 200px;
     }
-    .book-card {
+    .project-card {
         height: 600px;
-        max-width: 60%;
+        max-width: 100%;
         margin: 20px;
         justify-self: center;
         border-radius: 10px;

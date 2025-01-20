@@ -21,6 +21,8 @@ function TodoController() {
         allProjects[i].retrieveTasks(allProjects[i].projectName);
         console.log(allProjects[i].getAllTasks);
     }
+
+    
     /*const addnewtask = todolist.getProject('a');
     addnewtask.addTask('take out the trash');
     addnewtask.addTask('do the dishes');
@@ -83,6 +85,25 @@ function TodoController() {
         modal.classList.remove('bg-active');
         overlay.classList.remove('bg-active');
     }
+
+    const createCard = (projectObject) => {
+        const card = document.createElement('div');
+        const title = document.createElement('div');
+        title.appendChild(document.createTextNode(projectObject.projectName));
+        card.appendChild(title);
+        card.classList.add('project-card');
+        document.querySelector('#projects').appendChild(card);
+    }
+
+    const displayCard = () => {
+        const allProjects = todolist.listProjects();
+        for(let i = 0; i< allProjects.length; i++){
+            createCard(allProjects[i]);
+            console.log('displaycard', allProjects[i]);
+        }
+    }
+
+    displayCard();
     
 }
 
