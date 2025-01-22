@@ -8,13 +8,6 @@ function TodoController() {
     todolist.addProject(todolist.createProject('default'));
     todolist.addProject(todolist.createProject('default')); //test duplicate project
     todolist.listProjects();
-
-    let counter = 0;
-    while(counter < 2) {
-        const projectName = prompt('Enter project name')
-        todolist.addProject(todolist.createProject(projectName));
-        counter++;
-    }
     const allProjects = todolist.listProjects();
     console.log('allprojects: ',allProjects);
     for(let i = 0; i< allProjects.length; i++){
@@ -78,6 +71,7 @@ function TodoController() {
         if (modal == null) return;
         modal.classList.add('bg-active');
         overlay.classList.add('bg-active');
+        document.querySelector("#project-title").focus();
     }
 
     const closeModal = (modal) => {
@@ -95,6 +89,14 @@ function TodoController() {
         document.querySelector('#projects').appendChild(card);
     }
 
+    const removeAllCards = () => {
+        let projects = document.querySelector('.projects');
+        let allprojects = document.querySelectorAll('.project-card');
+        for(let i = 0; i < allprojects.length; i++){
+            projects.removeChild(allprojects[i]);
+        }
+    }
+
     const displayCard = () => {
         const allProjects = todolist.listProjects();
         for(let i = 0; i< allProjects.length; i++){
@@ -103,7 +105,26 @@ function TodoController() {
         }
     }
 
+    const newProjectForm = () => {
+        document.querySelector("#newprojectform").addEventListener("submit", function(event){
+            event.preventDefault();
+            const form = event.target;
+            const formData = new FormData(form);
+            const formObject = Object.fromEntries(formData.entries());
+            console.log('new project from form is: ', formObject);
+            todolist.addProject(todolist.createProject(formObject.projecttitle));
+            removeAllCards();
+            document.querySelector("#newprojectform").reset();
+            let popup = document.querySelector('#pop-up');
+            popup.classList.remove('bg-active');
+            let overlaybg = document.querySelector('#overlay-bg');
+            overlaybg.classList.remove('bg-active');
+            displayCard();
+        })
+    }
+
     displayCard();
+    newProjectForm();
     
 }
 
