@@ -84,6 +84,7 @@ function TodoController() {
         const card = document.createElement('div');
         const title = document.createElement('div');
         title.appendChild(document.createTextNode(projectObject.projectName));
+        title.classList.add('project-card-title');
         card.appendChild(title);
         card.classList.add('project-card');
         document.querySelector('#projects').appendChild(card);

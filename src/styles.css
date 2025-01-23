@@ -117,6 +117,16 @@ input {
     row-gap: 10px;
 }
 
+.project-card-title {
+    text-align: center;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: x-large;
+}
+
+#submit {
+    height: 50px;
+}
+
 .title-field{
     gap: 10px;
 }
