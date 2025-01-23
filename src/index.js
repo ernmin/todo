@@ -83,11 +83,18 @@ function TodoController() {
     const createCard = (projectObject) => {
         const card = document.createElement('div');
         const title = document.createElement('div');
+        const closeButton = document.createElement('button');
+        closeButton.setAttribute('data-close-button', 'true');
+        closeButton.innerHTML ='&times;'
+        closeButton.classList.add('close-button');
         title.appendChild(document.createTextNode(projectObject.projectName));
         title.classList.add('project-card-title');
         card.appendChild(title);
+        card.appendChild(closeButton);
         card.classList.add('project-card');
+        card.setAttribute('id', projectObject.projectName);
         document.querySelector('#projects').appendChild(card);
+        //ADD FUNCTIONALITY TO THE 
     }
 
     const removeAllCards = () => {

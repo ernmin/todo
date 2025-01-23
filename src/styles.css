@@ -109,11 +109,13 @@ input {
     max-width: 230px;
     margin: 20px;
     justify-self: center;
+    align-items: center;
     border-radius: 10px;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 1);
     padding: 10px;
     display: grid;
-    grid-template-rows: 1fr 5fr;
+    grid-template-columns: 5fr 1fr;
+    grid-template-rows: 1fr 7fr;
     row-gap: 10px;
 }
 
@@ -121,6 +123,15 @@ input {
     text-align: center;
     font-family: 'Times New Roman', Times, serif;
     font-size: x-large;
+}
+
+.close-button{
+    cursor: pointer;
+    border: none;
+    outline: none;
+    background: none;
+    font-size: 1.25rem;
+    font-weight: bold;
 }
 
 #submit {
