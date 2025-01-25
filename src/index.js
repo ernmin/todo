@@ -108,6 +108,9 @@ function TodoController() {
                 const parentDiv = allCloseButtons.parentElement;
                 const parentId = parentDiv.id;
                 console.log('parent id is ', parentId);
+                todolist.deleteProject(parentId);
+                removeAllCards();
+                displayCard();
         });
         //deleteProjectCard(parentId);
     }
@@ -324,7 +327,11 @@ function projectController() {
         const targetProjectIndex = projects.findIndex(obj => obj.projectName === name);
         if (targetProjectIndex > -1) {
             const removedProject = projects.splice(targetProjectIndex, 1);
+            const removeProjectTitles = projectTitles.splice(targetProjectIndex, 1);
+            storeProject();
+            console.log('projecttitles are: ',projectTitles);
             console.log('Project ', removedProject, ' was removed');
+            localStorage.removeItem(name);
             return removedProject[0];
         }
         else{
