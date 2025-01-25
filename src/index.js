@@ -87,6 +87,8 @@ function TodoController() {
         closeButton.setAttribute('data-close-button', 'true');
         closeButton.innerHTML ='&times;'
         closeButton.classList.add('close-button');
+        closeButton.id = 'button-' + projectObject.projectName;
+        const closeButtonid = closeButton.id;
         title.appendChild(document.createTextNode(projectObject.projectName));
         title.classList.add('project-card-title');
         card.appendChild(title);
@@ -94,8 +96,25 @@ function TodoController() {
         card.classList.add('project-card');
         card.setAttribute('id', projectObject.projectName);
         document.querySelector('#projects').appendChild(card);
-        //ADD FUNCTIONALITY TO THE 
+        closeButtonEventListener(closeButtonid);
+        //ADD FUNCTIONALITY TO THE CLOSE BUTTON USING THE CARD ID
     }
+
+    const closeButtonEventListener = (closeButtonid) => {
+        closeButtonid = '#' + closeButtonid;
+        const allCloseButtons = document.querySelector(closeButtonid);
+        console.log(allCloseButtons);
+        allCloseButtons.addEventListener('click', () => {
+                const parentDiv = allCloseButtons.parentElement;
+                const parentId = parentDiv.id;
+                console.log('parent id is ', parentId);
+        });
+        //deleteProjectCard(parentId);
+    }
+
+    /*const deleteProjectCard = (projectName) => {
+
+    }*/
 
     const removeAllCards = () => {
         let projects = document.querySelector('.projects');
