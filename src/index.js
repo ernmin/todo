@@ -7,6 +7,7 @@ function TodoController() {
     console.log(typeof todolist);
     todolist.addProject(todolist.createProject('default'));
     todolist.addProject(todolist.createProject('default')); //test duplicate project
+    todolist.addProject(todolist.createProject('Home'));
     todolist.listProjects();
     const allProjects = todolist.listProjects();
     console.log('allprojects: ',allProjects);
@@ -16,11 +17,12 @@ function TodoController() {
     }
 
     
-    /*const addnewtask = todolist.getProject('a');
-    addnewtask.addTask('take out the trash');
+    /*const addnewtask = todolist.getProject('Home');
+    addnewtask.addTask('take out the trash NOW');
     addnewtask.addTask('do the dishes');
     addnewtask.addTask('sweep the floor');
     console.log(todolist.getProject('default').getAllTasks());
+    */
     /*
     const deleteTaskFromProject = todolist.getProject('default');
     deleteTaskFromProject.deleteTask('take out the trash');
@@ -97,6 +99,19 @@ function TodoController() {
         card.setAttribute('id', projectObject.projectName);
         document.querySelector('#projects').appendChild(card);
         closeButtonEventListener(closeButtonid);
+        const tasksOnCardDiv = document.createElement('div');
+        tasksOnCardDiv.classList.add('task-list');
+        const orderedlist = document.createElement('ol');
+        const tasksOnCard = listItemsOnCard(projectObject);
+        tasksOnCard.forEach(task => {
+            const lineItem = document.createElement('li');
+            lineItem.textContent = task.title;
+            orderedlist.appendChild(lineItem);
+        });
+
+        tasksOnCardDiv.appendChild(orderedlist);
+        card.appendChild(tasksOnCardDiv);
+
         //ADD FUNCTIONALITY TO THE CLOSE BUTTON USING THE CARD ID
     }
 
@@ -112,7 +127,13 @@ function TodoController() {
                 removeAllCards();
                 displayCard();
         });
-        //deleteProjectCard(parentId);
+        //HOW TO DO A CONFIRM POPUP FOR DELETE (SWEET ALERT?)
+    }
+
+    const listItemsOnCard = (projectObject) => {
+        const tasks = projectObject.getAllTasks();
+        console.log('listItemsOncard ', tasks);
+        return tasks;
     }
 
     /*const deleteProjectCard = (projectName) => {
@@ -327,7 +348,7 @@ function projectController() {
         const targetProjectIndex = projects.findIndex(obj => obj.projectName === name);
         if (targetProjectIndex > -1) {
             const removedProject = projects.splice(targetProjectIndex, 1);
-            const removeProjectTitles = projectTitles.splice(targetProjectIndex, 1);
+            projectTitles.splice(targetProjectIndex, 1);
             storeProject();
             console.log('projecttitles are: ',projectTitles);
             console.log('Project ', removedProject, ' was removed');
