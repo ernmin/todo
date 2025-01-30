@@ -66,6 +66,8 @@ function TodoController() {
         button.addEventListener('click', () =>{
             const modal = button.closest('.window');
             closeModal(modal);
+            const modalfocusview = button.closest('.specific-card');
+            closeModal(modalfocusview);
         })
     })
 
@@ -73,6 +75,8 @@ function TodoController() {
         if (modal == null) return;
         modal.classList.add('bg-active');
         overlay.classList.add('bg-active');
+        console.log('modal is ', modal);
+        //if (modal == 
         document.querySelector("#project-title").focus();
     }
 
@@ -81,6 +85,10 @@ function TodoController() {
         modal.classList.remove('bg-active');
         overlay.classList.remove('bg-active');
     }
+
+    /*const displayCardModal = () => {
+add a button under each card instead
+    }*/
 
     const createCard = (projectObject) => {
         const card = document.createElement('div');
@@ -111,6 +119,12 @@ function TodoController() {
 
         tasksOnCardDiv.appendChild(orderedlist);
         card.appendChild(tasksOnCardDiv);
+        const focusviewbutton = document.createElement('button');
+        focusviewbutton.textContent = 'See More';
+        focusviewbutton.classList.add('btn');
+        focusviewbutton.classList.add('btn-primary');
+        focusviewbutton.classList.add('card-row');
+        card.appendChild(focusviewbutton);
 
         //ADD FUNCTIONALITY TO THE CLOSE BUTTON USING THE CARD ID
     }
