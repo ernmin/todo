@@ -17,12 +17,13 @@ function TodoController() {
     }
 
     
-    /*const addnewtask = todolist.getProject('Home');
-    addnewtask.addTask('take out the trash NOW');
+    const addnewtask = todolist.getProject('Home');
+    /*addnewtask.addTask('take out the trash');
     addnewtask.addTask('do the dishes');
+    addnewtask.addTask('sweep the floor');*/
     addnewtask.addTask('sweep the floor');
     console.log(todolist.getProject('default').getAllTasks());
-    */
+    
     /*
     const deleteTaskFromProject = todolist.getProject('default');
     deleteTaskFromProject.deleteTask('take out the trash');
@@ -51,32 +52,42 @@ function TodoController() {
     //for the date object, use the format method to output the correct format
 
 
-    const openModalButtons = document.querySelectorAll('[data-modal-target]');
-    const closeModalButtons = document.querySelectorAll('[data-close-button]');
+    
+    
     const overlay = document.getElementById('overlay-bg');
 
-    openModalButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            const modal = document.querySelector(button.dataset.modalTarget)
-            openModal(modal);
+    const runOpenModalButtons = () => {
+        const openModalButtons = document.querySelectorAll('[data-modal-target]');
+        openModalButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const modal = document.querySelector(button.dataset.modalTarget)
+                openModal(modal);
+                //ADD A METHOD HERE TO POPULATE THE GRID WITH THE TODOS
+            })
         })
-    })
+    }
 
-    closeModalButtons.forEach(button => {
-        button.addEventListener('click', () =>{
-            const modal = button.closest('.window');
-            closeModal(modal);
-            const modalfocusview = button.closest('.specific-card');
-            closeModal(modalfocusview);
+    runOpenModalButtons();
+
+    const runCloseModalButtons = () => {
+        const closeModalButtons = document.querySelectorAll('[data-close-button]');
+        closeModalButtons.forEach(button => {
+            button.addEventListener('click', () =>{
+                const modal = button.closest('.window');
+                closeModal(modal);
+                const modalfocusview = button.closest('.specific-card');
+                closeModal(modalfocusview);
+            })
         })
-    })
+    }
 
+    runCloseModalButtons();
+    
     const openModal = (modal) => {
         if (modal == null) return;
         modal.classList.add('bg-active');
         overlay.classList.add('bg-active');
         console.log('modal is ', modal);
-        //if (modal == 
         document.querySelector("#project-title").focus();
     }
 
@@ -116,6 +127,8 @@ add a button under each card instead
             lineItem.textContent = task.title;
             orderedlist.appendChild(lineItem);
         });
+        //print until tasks number 5
+        //show number of complete tasks against total tasks
 
         tasksOnCardDiv.appendChild(orderedlist);
         card.appendChild(tasksOnCardDiv);
@@ -124,9 +137,13 @@ add a button under each card instead
         focusviewbutton.classList.add('btn');
         focusviewbutton.classList.add('btn-primary');
         focusviewbutton.classList.add('card-row');
+        const focusviewbuttonAttribute = 'data-' + 'modal-target';
+        focusviewbutton.setAttribute(focusviewbuttonAttribute, '#pop-up-focus');
         card.appendChild(focusviewbutton);
-
-        //ADD FUNCTIONALITY TO THE CLOSE BUTTON USING THE CARD ID
+        runOpenModalButtons();
+        //ADD FUNCTIONALITY TO THE CLOSE BUTTON USING THE PARENT CARD ID, SEE CHATGPT HISTORY
+        //RETRIEVE THE PROJECT USING GET PROJECT
+        //RETRIEVE THE TASKS OF THAT PROJECT
     }
 
     const closeButtonEventListener = (closeButtonid) => {
