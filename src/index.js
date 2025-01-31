@@ -97,9 +97,6 @@ function TodoController() {
         overlay.classList.remove('bg-active');
     }
 
-    /*const displayCardModal = () => {
-add a button under each card instead
-    }*/
 
     const createCard = (projectObject) => {
         const card = document.createElement('div');
@@ -118,6 +115,8 @@ add a button under each card instead
         card.setAttribute('id', projectObject.projectName);
         document.querySelector('#projects').appendChild(card);
         closeButtonEventListener(closeButtonid);
+
+
         const tasksOnCardDiv = document.createElement('div');
         tasksOnCardDiv.classList.add('task-list');
         const orderedlist = document.createElement('ol');
@@ -128,15 +127,23 @@ add a button under each card instead
             orderedlist.appendChild(lineItem);
         });
         //print until tasks number 5
-        //show number of complete tasks against total tasks
 
         tasksOnCardDiv.appendChild(orderedlist);
         card.appendChild(tasksOnCardDiv);
+
+        const tasksCountDiv = document.createElement('div');
+        const tasksCount = projectObject.getAllTasks();
+        const tasksCountcompleted = countCompletedTasks(tasksCount);
+        const tasksText = tasksCountcompleted + ' of ' + tasksCount.length + ' completed';
+        tasksCountDiv.appendChild(document.createTextNode(tasksText));
+        tasksCountDiv.classList.add('task-count');
+        if(tasksCount.length != 0){
+            card.appendChild(tasksCountDiv);
+        }
+
         const focusviewbutton = document.createElement('button');
         focusviewbutton.textContent = 'See More';
-        focusviewbutton.classList.add('btn');
-        focusviewbutton.classList.add('btn-primary');
-        focusviewbutton.classList.add('card-row');
+        focusviewbutton.classList.add('btn', 'btn-primary', 'card-row');
         const focusviewbuttonAttribute = 'data-' + 'modal-target';
         focusviewbutton.setAttribute(focusviewbuttonAttribute, '#pop-up-focus');
         card.appendChild(focusviewbutton);
@@ -144,6 +151,19 @@ add a button under each card instead
         //ADD FUNCTIONALITY TO THE CLOSE BUTTON USING THE PARENT CARD ID, SEE CHATGPT HISTORY
         //RETRIEVE THE PROJECT USING GET PROJECT
         //RETRIEVE THE TASKS OF THAT PROJECT
+    }
+
+    const countCompletedTasks = (arrayoftasks) => {
+        let count = 0;
+        for(let i = 0; i < arrayoftasks.length; i++){
+            if (arrayoftasks[i].completed != false){
+                count ++;
+            }
+            else {
+                continue;
+            }
+        }
+        return count;
     }
 
     const closeButtonEventListener = (closeButtonid) => {
