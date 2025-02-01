@@ -18,10 +18,9 @@ function TodoController() {
 
     
     const addnewtask = todolist.getProject('Home');
-    /*addnewtask.addTask('take out the trash');
-    addnewtask.addTask('do the dishes');
-    addnewtask.addTask('sweep the floor');*/
-    addnewtask.addTask('sweep the floor');
+    addnewtask.addTask('take out the trash now');
+    addnewtask.addTask('do the dishes now');
+    addnewtask.addTask('sweep the floor now');
     console.log(todolist.getProject('default').getAllTasks());
     
     /*
@@ -109,8 +108,7 @@ function TodoController() {
         const closeButtonid = closeButton.id;
         title.appendChild(document.createTextNode(projectObject.projectName));
         title.classList.add('project-card-title');
-        card.appendChild(title);
-        card.appendChild(closeButton);
+        card.append(title, closeButton);
         card.classList.add('project-card');
         card.setAttribute('id', projectObject.projectName);
         document.querySelector('#projects').appendChild(card);
@@ -121,12 +119,23 @@ function TodoController() {
         tasksOnCardDiv.classList.add('task-list');
         const orderedlist = document.createElement('ol');
         const tasksOnCard = listItemsOnCard(projectObject);
-        tasksOnCard.forEach(task => {
-            const lineItem = document.createElement('li');
-            lineItem.textContent = task.title;
-            orderedlist.appendChild(lineItem);
-        });
-        //print until tasks number 5
+        if (tasksOnCard.length > 5) {
+            for(let i = 0; i < 5; i++){
+                const lineItem = document.createElement('li');
+                lineItem.textContent = tasksOnCard[i].title;
+                orderedlist.appendChild(lineItem);
+            }
+            const seemore = document.createElement('li')
+            seemore.textContent = '......'
+            orderedlist.appendChild(seemore);
+        }
+        else{
+            tasksOnCard.forEach(task => {
+                const lineItem = document.createElement('li');
+                lineItem.textContent = task.title;
+                orderedlist.appendChild(lineItem);
+            });
+        }
 
         tasksOnCardDiv.appendChild(orderedlist);
         card.appendChild(tasksOnCardDiv);
@@ -152,6 +161,10 @@ function TodoController() {
         //RETRIEVE THE PROJECT USING GET PROJECT
         //RETRIEVE THE TASKS OF THAT PROJECT
     }
+
+    /*const focusviewtitle = () => {
+
+    }*/
 
     const countCompletedTasks = (arrayoftasks) => {
         let count = 0;
