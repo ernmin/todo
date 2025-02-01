@@ -157,14 +157,19 @@ function TodoController() {
         focusviewbutton.setAttribute(focusviewbuttonAttribute, '#pop-up-focus');
         card.appendChild(focusviewbutton);
         runOpenModalButtons();
+        focusviewtitle(focusviewbutton);
         //ADD FUNCTIONALITY TO THE CLOSE BUTTON USING THE PARENT CARD ID, SEE CHATGPT HISTORY
         //RETRIEVE THE PROJECT USING GET PROJECT
         //RETRIEVE THE TASKS OF THAT PROJECT
     }
 
-    /*const focusviewtitle = () => {
-
-    }*/
+    const focusviewtitle = (button) => {
+        button.addEventListener('click', (event) => {
+            const parentDiv = event.target.parentElement;
+            const title = document.querySelector('#title-popup');
+            title.textContent = parentDiv.id;
+        });
+    }
 
     const countCompletedTasks = (arrayoftasks) => {
         let count = 0;

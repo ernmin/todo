@@ -40,7 +40,8 @@
 
 
 .window-header {
-    display: flex;
+    display: grid;
+    grid-template-columns: 8fr 1fr;
     padding: 10px 15px;
     justify-content: space-between;
     align-items: center;
@@ -176,6 +177,11 @@ input {
 
 .title-field{
     gap: 10px;
+}
+
+.title {
+    justify-self: center;
+    font-size: 1.3rem;
 }
 
 input[type="checkbox"] {
