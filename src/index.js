@@ -192,9 +192,12 @@ function TodoController() {
                 const parentDiv = allCloseButtons.parentElement;
                 const parentId = parentDiv.id;
                 console.log('parent id is ', parentId);
-                todolist.deleteProject(parentId);
-                removeAllCards();
-                displayCard();
+                let confirmdelete = confirm('Delete Project?');
+                if(confirmdelete == true){
+                    todolist.deleteProject(parentId);
+                    removeAllCards();
+                    displayCard();
+                }
         });
         //HOW TO DO A CONFIRM POPUP FOR DELETE (SWEET ALERT?)
     }

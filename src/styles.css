@@ -135,7 +135,7 @@ input {
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 1);
     padding: 10px;
     display: grid;
-    grid-template-columns: 5fr 1fr;
+    grid-template-columns: 8fr 1fr;
     grid-template-rows: 1fr 6fr 1fr 1fr;
     row-gap: 10px;
 }
