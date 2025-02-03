@@ -158,6 +158,7 @@ function TodoController() {
         card.appendChild(focusviewbutton);
         runOpenModalButtons();
         focusviewtitle(focusviewbutton);
+        focusviewitems(focusviewbutton);
         //ADD FUNCTIONALITY TO THE CLOSE BUTTON USING THE PARENT CARD ID, SEE CHATGPT HISTORY
         //RETRIEVE THE PROJECT USING GET PROJECT
         //RETRIEVE THE TASKS OF THAT PROJECT
@@ -169,6 +170,29 @@ function TodoController() {
             const title = document.querySelector('#title-popup');
             title.textContent = parentDiv.id;
         });
+    }
+
+    const focusviewitems = (button) => {
+        button.addEventListener('click', (event) => {
+           let table = document.createElement('table');
+           const parentDiv = event.target.parentElement;
+           let targetProject = todolist.getProject(parentDiv.id);
+           let alltasks = targetProject.getAllTasks();
+           console.log('focusviewitems alltasks is ',targetProject.getAllTasks());
+           let headerRow = table.insertRow();
+           let headers = ['', 'Task', 'Priority', 'Due Date'];
+           headers.forEach(headerText => {
+                let th = document.createElement('th');
+                th.textContent = headerText;
+                headerRow.appendChild(th); 
+           })
+
+           document.querySelector('#specific-card-body').appendChild(table);
+        });
+        //add check boxes
+        //populate rows of the table
+        //Edit Task name (this is not in the definition of a task yet)
+        //change due date format when printed on the table
     }
 
     const countCompletedTasks = (arrayoftasks) => {
@@ -199,7 +223,6 @@ function TodoController() {
                     displayCard();
                 }
         });
-        //HOW TO DO A CONFIRM POPUP FOR DELETE (SWEET ALERT?)
     }
 
     const listItemsOnCard = (projectObject) => {
@@ -207,10 +230,6 @@ function TodoController() {
         console.log('listItemsOncard ', tasks);
         return tasks;
     }
-
-    /*const deleteProjectCard = (projectName) => {
-
-    }*/
 
     const removeAllCards = () => {
         let projects = document.querySelector('.projects');

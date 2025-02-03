@@ -184,6 +184,18 @@ input {
     font-size: 1.3rem;
 }
 
+.tasks-body {
+    min-height: 90%;
+}
+
+table { 
+    width: 90%;
+}
+
+th {
+    justify-content: center;
+}
+
 input[type="checkbox"] {
     height: 20px;
     width: 20px;
