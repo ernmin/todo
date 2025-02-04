@@ -23,6 +23,7 @@ function TodoController() {
     addnewtask.addTask('sweep the floor now');
     console.log(todolist.getProject('default').getAllTasks());
     
+    
     /*
     const deleteTaskFromProject = todolist.getProject('default');
     deleteTaskFromProject.deleteTask('take out the trash');
@@ -267,7 +268,9 @@ function TodoController() {
 
     displayCard();
     newProjectForm();
-    
+    addnewtask.renameTask('take out the trash now', 'take out the trash later');
+    removeAllCards();
+    displayCard();
 }
 
 function projectController() {
@@ -326,6 +329,24 @@ function projectController() {
             
             //cannot add duplicate tasks
         };
+
+        const renameTask = (description, newDescription) => {
+            const targetTaskIndex = getTask(description);
+            if (targetTaskIndex > -1) {
+                if(tasks[targetTaskIndex].title === newDescription){
+                    console.log('rename task failed, task description unchanged');
+                }
+                else {
+                    tasks[targetTaskIndex].title = newDescription;
+                    console.log('New task description is: ', tasks[targetTaskIndex].title)
+                    return tasks[targetTaskIndex].title;
+                }
+            }
+            else{
+                console.log('task not found')
+                return;
+            }
+        }
 
         const deleteTask = (description) => {
             const targetTaskIndex = getTask(description);
@@ -403,7 +424,7 @@ function projectController() {
             }
         }
         
-        return { projectName, task, addTask, retrieveTasks, storeAllTasks, deleteTask, getAllTasks, getTask, changeTaskPriority, changeTaskComplete, changedueDate, }
+        return { projectName, task, addTask, renameTask, retrieveTasks, storeAllTasks, deleteTask, getAllTasks, getTask, changeTaskPriority, changeTaskComplete, changedueDate, }
     }
 
     function addProject(projectObject) {
