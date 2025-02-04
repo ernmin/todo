@@ -194,6 +194,7 @@ table {
 
 th {
     justify-content: center;
+    font-size: smaller;
 }
 
 input[type="checkbox"] {

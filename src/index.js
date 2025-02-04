@@ -175,20 +175,33 @@ function TodoController() {
 
     const focusviewitems = (button) => {
         button.addEventListener('click', (event) => {
-           let table = document.createElement('table');
+           //let table = document.createElement('table');
            const parentDiv = event.target.parentElement;
            let targetProject = todolist.getProject(parentDiv.id);
            let alltasks = targetProject.getAllTasks();
            console.log('focusviewitems alltasks is ',targetProject.getAllTasks());
-           let headerRow = table.insertRow();
-           let headers = ['', 'Task', 'Priority', 'Due Date'];
+           const table = document.querySelector('#table-focus');
+           while(table.rows.length > 1) {
+            table.deleteRow(1);
+           }
+           alltasks.forEach(obj => {
+            let row = table.insertRow();
+            Object.entries(obj).forEach(([key, value]) => {
+                let cell = row.insertCell();
+                if(key != 'project') {
+                    cell.textContent = value;
+                }
+            })
+           })
+           //let headerRow = table.insertRow();
+           /*let headers = ['', 'Task', 'Priority', 'Due Date'];
            headers.forEach(headerText => {
                 let th = document.createElement('th');
                 th.textContent = headerText;
                 headerRow.appendChild(th); 
-           })
+           })*/
 
-           document.querySelector('#specific-card-body').appendChild(table);
+           //document.querySelector('#specific-card-body').appendChild(table);
         });
         //add check boxes
         //populate rows of the table
@@ -296,7 +309,7 @@ function projectController() {
             let dueDate = new Date();
             let project = name;
         
-            return { title, completed, priority, dueDate, project};
+            return {  completed, title, priority, dueDate, project};
         } 
 
         const changedueDate = (description, date) => {
