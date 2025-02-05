@@ -189,24 +189,26 @@ function TodoController() {
             Object.entries(obj).forEach(([key, value]) => {
                 let cell = row.insertCell();
                 if(key != 'project') {
-                    cell.textContent = value;
+                    if(key == 'dueDate'){
+                        cell.textContent = format(value, "dd/MM/yyyy");
+                    }
+                    else if(key == 'priority'){
+                        cell.textContent = value;
+                        cell.classList.add('priority-table');
+                    }
+                    else{
+                        cell.textContent = value;
+                    }
                 }
             })
            })
-           //let headerRow = table.insertRow();
-           /*let headers = ['', 'Task', 'Priority', 'Due Date'];
-           headers.forEach(headerText => {
-                let th = document.createElement('th');
-                th.textContent = headerText;
-                headerRow.appendChild(th); 
-           })*/
-
-           //document.querySelector('#specific-card-body').appendChild(table);
         });
         //add check boxes
-        //populate rows of the table
-        //Edit Task name (this is not in the definition of a task yet)
+        //Edit Task name inline?
         //change due date format when printed on the table
+        //When focus view is open, don't allow scrolling in the background
+        //Scrolling in a modal
+
     }
 
     const countCompletedTasks = (arrayoftasks) => {
@@ -309,7 +311,7 @@ function projectController() {
             let dueDate = new Date();
             let project = name;
         
-            return {  completed, title, priority, dueDate, project};
+            return {  completed, title, dueDate, priority, project};
         } 
 
         const changedueDate = (description, date) => {

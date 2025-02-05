@@ -189,7 +189,11 @@ input {
 }
 
 table { 
-    width: 90%;
+    width: 100%;
+}
+
+.priority-table {
+    text-align: center;
 }
 
 th {
