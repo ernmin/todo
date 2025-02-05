@@ -192,6 +192,18 @@ function TodoController() {
                     if(key == 'dueDate'){
                         cell.textContent = format(value, "dd/MM/yyyy");
                     }
+                    else if(key == 'completed'){
+                        let checkbox = document.createElement('input');
+                        checkbox.setAttribute('type', 'checkbox');
+                        if(value == false){
+                            checkbox.checked = false;
+                        }
+                        else{
+                            checkbox.checked = true;
+                        }
+                        cell.appendChild(checkbox);
+                        cell.classList.add('checkbox-table');
+                    }
                     else if(key == 'priority'){
                         cell.textContent = value;
                         cell.classList.add('priority-table');
@@ -203,13 +215,17 @@ function TodoController() {
             })
            })
         });
-        //add check boxes
+        
         //Edit Task name inline?
         //change due date format when printed on the table
         //When focus view is open, don't allow scrolling in the background
         //Scrolling in a modal
 
     }
+
+    /*const updatetaskcheckbox = () => {
+        //update check boxes
+    }*/
 
     const countCompletedTasks = (arrayoftasks) => {
         let count = 0;

@@ -186,6 +186,7 @@ input {
 
 .tasks-body {
     min-height: 90%;
+    padding: 5px;
 }
 
 table { 
@@ -193,6 +194,10 @@ table {
 }
 
 .priority-table {
+    text-align: center;
+}
+
+.checkbox-table {
     text-align: center;
 }
 
