@@ -194,6 +194,7 @@ function TodoController() {
                     }
                     else if(key == 'completed'){
                         let checkbox = document.createElement('input');
+                        
                         checkbox.setAttribute('type', 'checkbox');
                         if(value == false){
                             checkbox.checked = false;
@@ -203,6 +204,9 @@ function TodoController() {
                         }
                         cell.appendChild(checkbox);
                         cell.classList.add('checkbox-table');
+                        checkbox.addEventListener('change', () => {
+                            targetProject.changeTaskComplete(obj.title);
+                        })
                     }
                     else if(key == 'priority'){
                         cell.textContent = value;
@@ -223,9 +227,9 @@ function TodoController() {
 
     }
 
-    /*const updatetaskcheckbox = () => {
+    const updatetaskcheckbox = () => {
         //update check boxes
-    }*/
+    }
 
     const countCompletedTasks = (arrayoftasks) => {
         let count = 0;
