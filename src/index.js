@@ -74,6 +74,15 @@ function TodoController() {
 
     runOpenModalButtons();
 
+    const runOpenModalOneButton = (button) => {
+        button.addEventListener('click', () => {
+            const modal = document.querySelector(button.dataset.modalTarget)
+            console.log(button.dataset.modalTarget);
+            
+            openModal(modal);
+        });
+    }
+
     const runCloseModalButtons = () => {
         const closeModalButtons = document.querySelectorAll('[data-close-button]');
         closeModalButtons.forEach(button => {
@@ -85,6 +94,7 @@ function TodoController() {
             })
         })
     }
+    
 
     runCloseModalButtons();
     
@@ -92,12 +102,20 @@ function TodoController() {
         if (modal == null) return;
         modal.classList.add('bg-active');
         overlay.classList.add('bg-active');
+        let scrollY = window.scrollY + 'px';
+        console.log(scrollY);
+        document.body.style.position = 'fixed';
+        document.body.style.top = scrollY * -1;
     }
 
     const closeModal = (modal) => {
         if (modal == null) return;
         modal.classList.remove('bg-active');
         overlay.classList.remove('bg-active');
+        const scrollY = document.body.style.top;
+        document.body.style.position = '';
+        document.body.style.top = `${window.scrollY}px`;
+        window.scrollTo(0, parseInt(scrollY || '0') * -1);
     }
 
 
@@ -160,7 +178,8 @@ function TodoController() {
         const focusviewbuttonAttribute = 'data-' + 'modal-target';
         focusviewbutton.setAttribute(focusviewbuttonAttribute, '#pop-up-focus');
         card.appendChild(focusviewbutton);
-        runOpenModalButtons();
+        runOpenModalOneButton(focusviewbutton);
+        //runOpenModalButtons();
         focusviewtitle(focusviewbutton);
         focusviewitems(focusviewbutton);
         //ADD FUNCTIONALITY TO THE CLOSE BUTTON USING THE PARENT CARD ID, SEE CHATGPT HISTORY
