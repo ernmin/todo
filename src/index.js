@@ -17,10 +17,11 @@ function TodoController() {
     }
 
     
-    const addnewtask = todolist.getProject('Home');
+    const addnewtask = todolist.getProject('default');
     addnewtask.addTask('take out the trash now');
     addnewtask.addTask('do the dishes now');
     addnewtask.addTask('sweep the floor now');
+    addnewtask.addTask('testing')
     console.log(todolist.getProject('default').getAllTasks());
     
     
@@ -97,25 +98,18 @@ function TodoController() {
     
 
     runCloseModalButtons();
+
     
     const openModal = (modal) => {
         if (modal == null) return;
         modal.classList.add('bg-active');
         overlay.classList.add('bg-active');
-        let scrollY = window.scrollY + 'px';
-        console.log(scrollY);
-        document.body.style.position = 'fixed';
-        document.body.style.top = scrollY * -1;
     }
 
     const closeModal = (modal) => {
         if (modal == null) return;
         modal.classList.remove('bg-active');
         overlay.classList.remove('bg-active');
-        const scrollY = document.body.style.top;
-        document.body.style.position = '';
-        document.body.style.top = `${window.scrollY}px`;
-        window.scrollTo(0, parseInt(scrollY || '0') * -1);
     }
 
 
@@ -205,6 +199,16 @@ function TodoController() {
            const table = document.querySelector('#table-focus');
            while(table.rows.length > 1) {
             table.deleteRow(1);
+           }
+           const notasks = document.querySelector('.notask');
+           if(alltasks.length == 0){
+            const card = document.querySelector('#pop-up-focus')
+            notasks.classList.add('notask')
+            notasks.textContent = 'No Tasks for this Project Yet';
+            card.appendChild(notasks);
+           }
+           else {
+            notasks.textContent = '';
            }
            alltasks.forEach(obj => {
             let row = table.insertRow();
