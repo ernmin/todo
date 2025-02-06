@@ -61,7 +61,12 @@ function TodoController() {
         openModalButtons.forEach(button => {
             button.addEventListener('click', () => {
                 const modal = document.querySelector(button.dataset.modalTarget)
+                console.log(button.dataset.modalTarget);
+                
                 openModal(modal);
+                if(button.dataset.modalTarget == '#pop-up'){
+                    document.querySelector("#project-title").focus();
+                }
                 //ADD A METHOD HERE TO POPULATE THE GRID WITH THE TODOS
             })
         })
@@ -87,8 +92,6 @@ function TodoController() {
         if (modal == null) return;
         modal.classList.add('bg-active');
         overlay.classList.add('bg-active');
-        console.log('modal is ', modal);
-        document.querySelector("#project-title").focus();
     }
 
     const closeModal = (modal) => {
