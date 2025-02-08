@@ -240,6 +240,23 @@ function TodoController() {
                     }
                     else{
                         cell.textContent = value;
+                        cell.setAttribute('contentEditable', 'true');
+                        let currenttask = "";
+                        cell.addEventListener('click', function() {
+                            currenttask = this.textContent;
+                            
+                        });
+                        let newTask = "";
+                        cell.addEventListener('focusout', function() {
+                            newTask = this.textContent;
+                            targetProject.renameTask(currenttask, newTask);
+                            removeAllCards();
+                            displayCard();
+                        });
+                        
+                        
+                        
+                        //Add event listener to change current and new task title
                     }
                 }
             })
@@ -253,8 +270,9 @@ function TodoController() {
 
     }
 
-    const updatetaskcheckbox = () => {
-        //update check boxes
+    const updatetaskname = () => {
+        
+        return 
     }
 
     const countCompletedTasks = (arrayoftasks) => {
@@ -329,9 +347,6 @@ function TodoController() {
 
     displayCard();
     newProjectForm();
-    addnewtask.renameTask('take out the trash now', 'take out the trash later');
-    removeAllCards();
-    displayCard();
 }
 
 function projectController() {
@@ -400,6 +415,7 @@ function projectController() {
                 else {
                     tasks[targetTaskIndex].title = newDescription;
                     console.log('New task description is: ', tasks[targetTaskIndex].title)
+                    storeAllTasks();
                     return tasks[targetTaskIndex].title;
                 }
             }
