@@ -41,6 +41,25 @@ body {
     transform: translate(-50%, -50%) scale(1);
 }
 
+.specific-task {
+    position: fixed;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    transition: 200ms ease-in-out;
+    border: 1px solid black;
+    border-radius: 10px;
+    z-index: 10;
+    background-color: white;
+    width: 345px;
+    max-width: 90%;
+    min-height: 60%;
+}
+
+.specific-task.bg-active {
+    transform: translate(-50%, -50%) scale(1);
+}
+
 .notask {
     text-align: center;
 }

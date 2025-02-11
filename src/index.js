@@ -176,9 +176,6 @@ function TodoController() {
         //runOpenModalButtons();
         focusviewtitle(focusviewbutton);
         focusviewitems(focusviewbutton);
-        //ADD FUNCTIONALITY TO THE CLOSE BUTTON USING THE PARENT CARD ID, SEE CHATGPT HISTORY
-        //RETRIEVE THE PROJECT USING GET PROJECT
-        //RETRIEVE THE TASKS OF THAT PROJECT
     }
 
     const focusviewtitle = (button) => {
@@ -191,7 +188,6 @@ function TodoController() {
 
     const focusviewitems = (button) => {
         button.addEventListener('click', (event) => {
-           //let table = document.createElement('table');
            const parentDiv = event.target.parentElement;
            let targetProject = todolist.getProject(parentDiv.id);
            let alltasks = targetProject.getAllTasks();
@@ -212,17 +208,27 @@ function TodoController() {
            }
            alltasks.forEach(obj => {
             let row = table.insertRow();
-            Object.entries(obj).forEach(([key, value]) => {
+            Object.entries(obj).forEach(([key, valueobject]) => {
                 let cell = row.insertCell();
                 if(key != 'project') {
                     if(key == 'dueDate'){
-                        cell.textContent = format(value, "dd/MM/yyyy");
+                        cell.textContent = format(valueobject, "dd/MM/yyyy");
+                        focusviewtask(obj, cell);
+                        focusviewtaskmodal(cell);
+                        //<input type=date id=dateInput>
+                        /*let inputDate = document.createElement('input');
+                        inputDate.setAttribute('contentEditable', 'true');
+                        inputDate.setAttribute('type', 'date');
+                        console.log('valueobject is: ', valueobject, ' ', typeof(valueobject));
+                        inputDate.value = valueobject;
+                        //inputDate.value = format(value, "dd/MM/yyyy");
+                        cell.appendChild(inputDate);*/
                     }
                     else if(key == 'completed'){
                         let checkbox = document.createElement('input');
                         
                         checkbox.setAttribute('type', 'checkbox');
-                        if(value == false){
+                        if(valueobject == false){
                             checkbox.checked = false;
                         }
                         else{
@@ -235,11 +241,11 @@ function TodoController() {
                         })
                     }
                     else if(key == 'priority'){
-                        cell.textContent = value;
+                        cell.textContent = valueobject;
                         cell.classList.add('priority-table');
                     }
                     else{
-                        cell.textContent = value;
+                        cell.textContent = valueobject;
                         cell.setAttribute('contentEditable', 'true');
                         let currenttask = "";
                         cell.addEventListener('click', function() {
@@ -253,26 +259,34 @@ function TodoController() {
                             removeAllCards();
                             displayCard();
                         });
-                        
-                        
-                        
-                        //Add event listener to change current and new task title
+
                     }
                 }
             })
+            
+
            })
         });
         
-        //Edit Task name inline?
         //change due date format when printed on the table
         //When focus view is open, don't allow scrolling in the background
         //Scrolling in a modal
 
     }
+    const focusviewtask = (taskobj, cell) => {
+        cell.addEventListener('click', () => {
+            const tasktitle = document.querySelector('#task-title-popup');
+            tasktitle.textContent = taskobj.title;
+            console.log('focusviewtask', taskobj);
+            //How to open the new modal?
+            //New Modal Close Button
+            //Only 1 modal open at a time
+        })
+    }
 
-    const updatetaskname = () => {
-        
-        return 
+    const focusviewtaskmodal = (cell) => {
+        const cellAttribute = 'data-' + 'modal-target';
+        cell.setAttribute(cellAttribute, '#task-title-popup');
     }
 
     const countCompletedTasks = (arrayoftasks) => {
@@ -404,6 +418,7 @@ function projectController() {
             }
             
             //cannot add duplicate tasks
+            //BUTTON BELOW ALL THE TASKS
         };
 
         const renameTask = (description, newDescription) => {
@@ -435,7 +450,7 @@ function projectController() {
             else{
                 return;
             }
-            
+            //MOUSE OVER TO REVEAL CROSS TO DELETE TASK
         }
         const getAllTasks = () => tasks;
 
