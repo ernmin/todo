@@ -68,6 +68,8 @@ function TodoController() {
                 if(button.dataset.modalTarget == '#pop-up'){
                     document.querySelector("#project-title").focus();
                 }
+
+                
                 //ADD A METHOD HERE TO POPULATE THE GRID WITH THE TODOS
             })
         })
@@ -79,7 +81,11 @@ function TodoController() {
         button.addEventListener('click', () => {
             const modal = document.querySelector(button.dataset.modalTarget)
             console.log(button.dataset.modalTarget);
-            
+            if(button.dataset.modalTarget == '#pop-up-focus'){
+                let newProjectButton = document.querySelector("#newProjectButton");
+                newProjectButton.disabled = true;
+
+            }
             openModal(modal);
         });
     }
@@ -92,6 +98,8 @@ function TodoController() {
                 closeModal(modal);
                 const modalfocusview = button.closest('.specific-card');
                 closeModal(modalfocusview);
+                let newProjectButton = document.querySelector("#newProjectButton");
+                newProjectButton.disabled = false;
             })
         })
     }
