@@ -22,6 +22,16 @@ function TodoController() {
     addnewtask.addTask('do the dishes now');
     addnewtask.addTask('sweep the floor now');
     addnewtask.addTask('testing')
+    addnewtask.addTask('take out the trash later');
+    addnewtask.addTask('do the dishes later');
+    addnewtask.addTask('sweep the floor later');
+    addnewtask.addTask('testing later');
+    addnewtask.addTask('do the dishes never');
+    addnewtask.addTask('sweep the floor never');
+    addnewtask.addTask('testing never');
+    addnewtask.addTask('do the dishes soon');
+    addnewtask.addTask('sweep the floor soon');
+    addnewtask.addTask('testing soon');
     console.log(todolist.getProject('default').getAllTasks());
     
     
@@ -279,6 +289,8 @@ function TodoController() {
         //change due date format when printed on the table
         //When focus view is open, don't allow scrolling in the background
         //Scrolling in a modal
+        //DELETE BUTTON FOR TASKS
+        //ADD TASKS BUTTON
 
     }
     const focusviewtask = (taskobj, cell) => {
@@ -400,13 +412,15 @@ function projectController() {
         const changedueDate = (description, date) => {
             const targetTaskIndex = getTask(description);
             if (targetTaskIndex > -1) {
-                    tasks[targetTaskIndex].dueDate = new Date(date);
-                    console.log('New due date is: ', format(tasks[targetTaskIndex].dueDate, 'yyyy-MM-dd'));
-                    return tasks[targetTaskIndex].dueDate;
-                }
-                else{
-                    return;
-                }
+                //let newDate = new Date(date);
+                //INSTEAD OF NEW POP UP FOR DATES, TYPE IN THE FORMAT AND REJECT IT IF IT IS NOT IN THE CORRECT FORMAT
+                tasks[targetTaskIndex].dueDate = new Date(date);
+                console.log('New due date is: ', format(tasks[targetTaskIndex].dueDate, 'yyyy-MM-dd'));
+                return tasks[targetTaskIndex].dueDate;
+            }
+            else{
+                return;
+            }
         } //date must be in the format of (YYYY-MM-DD) since
         //HTML form <input type=date id=dateInput> will produce this format
 
@@ -434,6 +448,11 @@ function projectController() {
             if (targetTaskIndex > -1) {
                 if(tasks[targetTaskIndex].title === newDescription){
                     console.log('rename task failed, task description unchanged');
+                }
+                else if(newDescription.length < 1){
+                    console.log('invalid task name');
+                    tasks[targetTaskIndex].title = description;
+                    return;
                 }
                 else {
                     tasks[targetTaskIndex].title = newDescription;
