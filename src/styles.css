@@ -22,9 +22,12 @@ body {
     transform: translate(-50%, -50%) scale(1);
 }
 
+.testing {
+    
+}
 .specific-card {
     position: fixed;
-    top: 45%;
+    top:45%;
     left: 50%;
     transform: translate(-50%, -50%) scale(0);
     transition: 200ms ease-in-out;
