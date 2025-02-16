@@ -58,7 +58,7 @@ body {
 }
 
 .bottom-bar-modal {
-    position: sticky;
+    position: fixed;
     bottom:0;
     left: 0;
     width: 100%;
@@ -68,6 +68,41 @@ body {
     background-color: white;
 }
 
+.newtaskform {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    align-items: center;
+    grid-column-gap: 0.4rem;
+    grid-row-gap: 0.1rem;
+}
+
+
+
+.checkboxtask {
+    justify-self: center;
+    grid-column: 1/2;
+}
+
+.tasktext{
+    grid-column: 2/5;
+}
+
+.taskdate {
+    grid-column: 1/4;
+    grid-row: 2/3;
+}
+
+.taskpriority {
+    grid-row: 2/3;
+    width: 100px;
+    grid-column: 4/5;
+    
+}
+
+#newtasksubmit {
+    grid-row: 1/3;
+}
 
 .specific-card.bg-active {
     transform: translate(-50%, -50%) scale(1);
