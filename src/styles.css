@@ -26,6 +26,8 @@ body {
     
 }
 .specific-card {
+    display:flex;
+    flex-direction: column;
     position: fixed;
     top:45%;
     left: 50%;
@@ -55,6 +57,7 @@ body {
 }
 
 .tasks-body {
+    flex-grow: 1;
     min-height: 90%;
     padding: 5px;
     overflow-y: auto;
