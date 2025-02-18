@@ -458,6 +458,11 @@ function projectController() {
         //HTML form <input type=date id=dateInput> will produce this format
 
         const addTask = (description) => {
+            if(description === ""){
+                console.log('empty task not added');
+                alert("Please enter a valid task");
+                return
+            }
             const newTask = task(description);
             console.log('check new task', newTask);
             const checkTask = getTask(description);
