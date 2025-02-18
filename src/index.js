@@ -398,11 +398,18 @@ function TodoController() {
                 targetProject.changeTaskComplete(formObject.tasktextid);
             }
             let taskprioritynum = parseInt(formObject.taskpriorityid);
-            if(taskprioritynum != 1){
+            if (taskprioritynum > 6 || taskprioritynum < 1) {
+                alert('Invalid Priority, Task will be assigned with priority of 1');
+            }
+            else if(taskprioritynum != 1){
                 targetProject.changeTaskPriority(formObject.tasktextid, taskprioritynum);
             }
+            
         })
     }
+    //Add functionality for the DATE
+    //Add front end validation
+    //Reject Form if 
 
     displayCard();
     newProjectForm();
@@ -522,7 +529,7 @@ function projectController() {
         const changeTaskPriority = (description, newPriority) => {
             const targetTaskIndex = getTask(description);
             if (targetTaskIndex > -1) {
-                if (newPriority < 0 && newPriority > 6){
+                if (newPriority < 0 || newPriority > 6){
                     console.log('Please enter a priority from 1 to 5 instead');
                     return;
                 }
