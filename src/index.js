@@ -219,6 +219,7 @@ function TodoController() {
             const card = document.querySelector('#pop-up-focus')
             notasks.classList.add('notask')
             notasks.textContent = 'No Tasks for this Project Yet';
+            //FIX THIS AS IT NO LONGER APPEARS USING FLEX BOX
             card.appendChild(notasks);
            }
            else {
@@ -262,7 +263,7 @@ function TodoController() {
                         cell.textContent = valueobject;
                         cell.classList.add('priority-table');
                     }
-                    else{
+                    else if(key == 'title'){
                         cell.textContent = valueobject;
                         cell.setAttribute('contentEditable', 'true');
                         let currenttask = "";
@@ -279,6 +280,7 @@ function TodoController() {
                         });
 
                     }
+
                 }
             })
             
@@ -379,8 +381,32 @@ function TodoController() {
         })
     }
 
+    const newTaskForm = () => {
+        document.querySelector("#taskform").addEventListener("submit", function(event){
+            event.preventDefault();
+            let project = document.querySelector("#title-popup").textContent;
+            const form = event.target;
+            const formData = new FormData(form);
+            const formObject = Object.fromEntries(formData.entries());
+            const targetProject = todolist.getProject(project);
+            const taskadded = targetProject.addTask(formObject.tasktextid);
+            if(taskadded > -1){
+                alert('Duplicate Task');
+                return
+            }
+            if(formObject.checkboxtaskid == 'on'){
+                targetProject.changeTaskComplete(formObject.tasktextid);
+            }
+            let taskprioritynum = parseInt(formObject.taskpriorityid);
+            if(taskprioritynum != 1){
+                targetProject.changeTaskPriority(formObject.tasktextid, taskprioritynum);
+            }
+        })
+    }
+
     displayCard();
     newProjectForm();
+    newTaskForm();
 }
 
 function projectController() {
@@ -430,7 +456,7 @@ function projectController() {
             const checkTask = getTask(description);
             if(checkTask > -1){
                 console.log('task already exists');
-                return;
+                return checkTask;
             }
             else{
                 tasks.push(newTask);
@@ -496,7 +522,7 @@ function projectController() {
         const changeTaskPriority = (description, newPriority) => {
             const targetTaskIndex = getTask(description);
             if (targetTaskIndex > -1) {
-                if (newPriority > 0 && newPriority < 6){
+                if (newPriority < 0 && newPriority > 6){
                     console.log('Please enter a priority from 1 to 5 instead');
                     return;
                 }
@@ -507,6 +533,7 @@ function projectController() {
                 else{
                     tasks[targetTaskIndex].priority = newPriority;
                     console.log('New Priority is: ', tasks[targetTaskIndex].priority)
+                    storeAllTasks();
                     return tasks[targetTaskIndex].priority;
                 }
             }

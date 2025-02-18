@@ -48,26 +48,29 @@
                 <table id="table-focus">
                     <tbody>
                         <tr>
-                            <th style="width:15%"></th>
+                            <th style="width:10%"></th>
                             <th style="width:50%">Task</th>
                             <th style="width:30%">Due Date</th>
                             <th style="text-align: center">Priority</th>
+                            <th style="width:10%"></th>
                         </tr>
                     </tbody>
                 </table>
             </div>
             <div class="notask"></div>
             <div class="bottom-bar-modal">
-                <div class="newtaskform">
-                    <input type="checkbox" class="checkboxtask">
-                    <input type="text" class="tasktext">
-                    <input type="date" class="taskdate">
-                    <input type="number" class="taskpriority">
-                    <button id="newtasksubmit" class="btn btn-primary">OK!</button>
-                    <div class="newtaskrow">
+                <form id="taskform">
+                    <div class="newtaskform">
+                        <input type="checkbox" class="checkboxtask" name="checkboxtaskid">
+                        <input type="text" class="tasktext" name="tasktextid">
+                        <input type="date" class="taskdate" name="taskdateid">
+                        <input type="number" class="taskpriority" name="taskpriorityid">
+                        <button id="newtasksubmit" class="btn btn-primary">OK!</button>
+                        <div class="newtaskrow">
                         
+                        </div>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
         <div class="specific-task" id="pop-up-card">
