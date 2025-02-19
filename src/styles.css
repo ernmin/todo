@@ -57,6 +57,7 @@ body {
     flex-grow: 1;
     min-height: 90%;
     padding: 5px;
+    padding-bottom: 90px;
     overflow-y: auto;
 }
 
