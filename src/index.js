@@ -110,10 +110,17 @@ function TodoController() {
                 closeModal(modalfocusview);
                 let newProjectButton = document.querySelector("#newProjectButton");
                 newProjectButton.disabled = false;
+                focusviewitemsdelete();
             })
         })
     }
-    
+
+    const focusviewitemsdelete = () => {
+        const specificcardbody = document.querySelector('#tablebody');
+        while(specificcardbody.children.length > 1){
+            specificcardbody.removeChild(specificcardbody.lastElementChild);
+        }
+    }
 
     runCloseModalButtons();
 
@@ -153,8 +160,8 @@ function TodoController() {
         tasksOnCardDiv.classList.add('task-list');
         const orderedlist = document.createElement('ol');
         const tasksOnCard = listItemsOnCard(projectObject);
-        if (tasksOnCard.length > 5) {
-            for(let i = 0; i < 5; i++){
+        if (tasksOnCard.length > 7) {
+            for(let i = 0; i < 7; i++){
                 const lineItem = document.createElement('li');
                 lineItem.textContent = tasksOnCard[i].title;
                 orderedlist.appendChild(lineItem);
@@ -232,8 +239,8 @@ function TodoController() {
                 if(key != 'project') {
                     if(key == 'dueDate'){
                         cell.textContent = format(valueobject, "dd/MM/yyyy");
-                        focusviewtask(obj, cell);
-                        focusviewtaskmodal(cell);
+                        focusviewdate(obj, cell);
+                        focusviewdatemodal(cell);
                         //<input type=date id=dateInput>
                         /*let inputDate = document.createElement('input');
                         inputDate.setAttribute('contentEditable', 'true');
@@ -242,6 +249,7 @@ function TodoController() {
                         inputDate.value = valueobject;
                         //inputDate.value = format(value, "dd/MM/yyyy");
                         cell.appendChild(inputDate);*/
+                        //SEE CHATGPT ON DATEPICKERS
                     }
                     else if(key == 'completed'){
                         let checkbox = document.createElement('input');
@@ -294,11 +302,14 @@ function TodoController() {
         //DELETE BUTTON FOR TASKS
         //ADD TASKS BUTTON
 
+    
+    
     }
-    const focusviewtask = (taskobj, cell) => {
+    const focusviewdate = (taskobj, cell) => {
         cell.addEventListener('click', () => {
             const tasktitle = document.querySelector('#task-title-popup');
             tasktitle.textContent = taskobj.title;
+            
             console.log('focusviewtask', taskobj);
             //How to open the new modal?
             //New Modal Close Button
@@ -306,7 +317,7 @@ function TodoController() {
         })
     }
 
-    const focusviewtaskmodal = (cell) => {
+    const focusviewdatemodal = (cell) => {
         const cellAttribute = 'data-' + 'modal-target';
         cell.setAttribute(cellAttribute, '#task-title-popup');
     }
@@ -408,8 +419,6 @@ function TodoController() {
         })
     }
     //Add functionality for the DATE
-    //Add front end validation
-    //Reject Form if 
 
     displayCard();
     newProjectForm();
