@@ -122,6 +122,73 @@ function TodoController() {
         }
     }
 
+
+    const focusviewaddtasks = (alltasks) => {
+        const table = document.querySelector('#table-focus');
+        alltasks.forEach(obj => {
+            let row = table.insertRow();
+            Object.entries(obj).forEach(([key, valueobject]) => {
+                let cell = row.insertCell();
+                if(key != 'project') {
+                    if(key == 'dueDate'){
+                        cell.textContent = format(valueobject, "dd/MM/yyyy");
+                        focusviewdate(obj, cell);
+                        focusviewdatemodal(cell);
+                        //<input type=date id=dateInput>
+                        /*let inputDate = document.createElement('input');
+                        inputDate.setAttribute('contentEditable', 'true');
+                        inputDate.setAttribute('type', 'date');
+                        console.log('valueobject is: ', valueobject, ' ', typeof(valueobject));
+                        inputDate.value = valueobject;
+                        //inputDate.value = format(value, "dd/MM/yyyy");
+                        cell.appendChild(inputDate);*/
+                        //SEE CHATGPT ON DATEPICKERS
+                    }
+                    else if(key == 'completed'){
+                        let checkbox = document.createElement('input');
+                        
+                        checkbox.setAttribute('type', 'checkbox');
+                        if(valueobject == false){
+                            checkbox.checked = false;
+                        }
+                        else{
+                            checkbox.checked = true;
+                        }
+                        cell.appendChild(checkbox);
+                        cell.classList.add('checkbox-table');
+                        checkbox.addEventListener('change', () => {
+                            targetProject.changeTaskComplete(obj.title);
+                        })
+                    }
+                    else if(key == 'priority'){
+                        cell.textContent = valueobject;
+                        cell.classList.add('priority-table');
+                    }
+                    else if(key == 'title'){
+                        cell.textContent = valueobject;
+                        cell.setAttribute('contentEditable', 'true');
+                        let currenttask = "";
+                        cell.addEventListener('click', function() {
+                            currenttask = this.textContent;
+                            
+                        });
+                        let newTask = "";
+                        cell.addEventListener('focusout', function() {
+                            newTask = this.textContent;
+                            targetProject.renameTask(currenttask, newTask);
+                            removeAllCards();
+                            displayCard();
+                        });
+
+                    }
+
+                }
+            })
+            
+
+           })
+    }
+
     runCloseModalButtons();
 
     
@@ -232,7 +299,7 @@ function TodoController() {
            else {
             notasks.textContent = '';
            }
-           focusviewaddtasks(alltasks, table);
+           focusviewaddtasks(alltasks);
         });
         
         //change due date format when printed on the table
@@ -241,70 +308,6 @@ function TodoController() {
         //DELETE BUTTON FOR TASKS
         //ADD TASKS BUTTON
 
-    const focusviewaddtasks = (alltasks, table) => {
-        alltasks.forEach(obj => {
-            let row = table.insertRow();
-            Object.entries(obj).forEach(([key, valueobject]) => {
-                let cell = row.insertCell();
-                if(key != 'project') {
-                    if(key == 'dueDate'){
-                        cell.textContent = format(valueobject, "dd/MM/yyyy");
-                        focusviewdate(obj, cell);
-                        focusviewdatemodal(cell);
-                        //<input type=date id=dateInput>
-                        /*let inputDate = document.createElement('input');
-                        inputDate.setAttribute('contentEditable', 'true');
-                        inputDate.setAttribute('type', 'date');
-                        console.log('valueobject is: ', valueobject, ' ', typeof(valueobject));
-                        inputDate.value = valueobject;
-                        //inputDate.value = format(value, "dd/MM/yyyy");
-                        cell.appendChild(inputDate);*/
-                        //SEE CHATGPT ON DATEPICKERS
-                    }
-                    else if(key == 'completed'){
-                        let checkbox = document.createElement('input');
-                        
-                        checkbox.setAttribute('type', 'checkbox');
-                        if(valueobject == false){
-                            checkbox.checked = false;
-                        }
-                        else{
-                            checkbox.checked = true;
-                        }
-                        cell.appendChild(checkbox);
-                        cell.classList.add('checkbox-table');
-                        checkbox.addEventListener('change', () => {
-                            targetProject.changeTaskComplete(obj.title);
-                        })
-                    }
-                    else if(key == 'priority'){
-                        cell.textContent = valueobject;
-                        cell.classList.add('priority-table');
-                    }
-                    else if(key == 'title'){
-                        cell.textContent = valueobject;
-                        cell.setAttribute('contentEditable', 'true');
-                        let currenttask = "";
-                        cell.addEventListener('click', function() {
-                            currenttask = this.textContent;
-                            
-                        });
-                        let newTask = "";
-                        cell.addEventListener('focusout', function() {
-                            newTask = this.textContent;
-                            targetProject.renameTask(currenttask, newTask);
-                            removeAllCards();
-                            displayCard();
-                        });
-
-                    }
-
-                }
-            })
-            
-
-           })
-    }
     
     }
     const focusviewdate = (taskobj, cell) => {
@@ -417,10 +420,25 @@ function TodoController() {
             else if(taskprioritynum != 1){
                 targetProject.changeTaskPriority(formObject.tasktextid, taskprioritynum);
             }
+
+            refreshfocusview();
             
         })
+        
     }
     //Add functionality for the DATE
+
+    const refreshfocusview = () => {
+        focusviewitemsdelete();
+        let project = document.querySelector("#title-popup").textContent;
+        let targetProject = todolist.getProject(project);
+        let alltasks = targetProject.getAllTasks();
+        focusviewaddtasks(alltasks); //WHY IS THE SCOPE FOR THIS WRONG?
+        removeAllCards();
+        displayCard();
+    }
+    
+    
 
     displayCard();
     newProjectForm();
