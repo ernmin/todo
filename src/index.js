@@ -232,7 +232,17 @@ function TodoController() {
            else {
             notasks.textContent = '';
            }
-           alltasks.forEach(obj => {
+           focusviewaddtasks(alltasks, table);
+        });
+        
+        //change due date format when printed on the table
+        //When focus view is open, don't allow scrolling in the background
+        //Scrolling in a modal
+        //DELETE BUTTON FOR TASKS
+        //ADD TASKS BUTTON
+
+    const focusviewaddtasks = (alltasks, table) => {
+        alltasks.forEach(obj => {
             let row = table.insertRow();
             Object.entries(obj).forEach(([key, valueobject]) => {
                 let cell = row.insertCell();
@@ -294,15 +304,7 @@ function TodoController() {
             
 
            })
-        });
-        
-        //change due date format when printed on the table
-        //When focus view is open, don't allow scrolling in the background
-        //Scrolling in a modal
-        //DELETE BUTTON FOR TASKS
-        //ADD TASKS BUTTON
-
-    
+    }
     
     }
     const focusviewdate = (taskobj, cell) => {
