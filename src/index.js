@@ -414,8 +414,9 @@ function TodoController() {
                 targetProject.changeTaskComplete(formObject.tasktextid);
             }
             let taskprioritynum = parseInt(formObject.taskpriorityid);
-            if (taskprioritynum > 6 || taskprioritynum < 1) {
+            if (taskprioritynum > 6 || taskprioritynum < 1 || isNaN(taskprioritynum)) {
                 alert('Invalid Priority, Task will be assigned with priority of 1');
+                //Fix blank task priority number
             }
             else if(taskprioritynum != 1){
                 targetProject.changeTaskPriority(formObject.tasktextid, taskprioritynum);
