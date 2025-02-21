@@ -330,10 +330,17 @@ function TodoController() {
 
     const focusviewhidecheckbox = () => {
         const deletetaskbox = document.querySelector('#deletetaskbox');
-        deletetaskbox.addEventListener('change', () => {
+        deletetaskbox.addEventListener('change', (event) => {
             let taskboxall = document.querySelectorAll('.checkbox-task');
-            for(let i = 0; i < taskboxall.length; i++) {
-                taskboxall[i].style.display = 'none';
+            if(event.target.checked){
+                for(let i = 0; i < taskboxall.length; i++) {
+                    taskboxall[i].style.display = 'none';
+                }
+            }
+            else{
+                for(let i = 0; i < taskboxall.length; i++) {
+                    taskboxall[i].style.display = 'block';
+                }
             }
         })
     }
