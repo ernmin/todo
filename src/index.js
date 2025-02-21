@@ -148,6 +148,7 @@ function TodoController() {
                         let checkbox = document.createElement('input');
                         
                         checkbox.setAttribute('type', 'checkbox');
+                        checkbox.classList.add('checkbox-task');
                         if(valueobject == false){
                             checkbox.checked = false;
                         }
@@ -265,7 +266,6 @@ function TodoController() {
         focusviewbutton.setAttribute(focusviewbuttonAttribute, '#pop-up-focus');
         card.appendChild(focusviewbutton);
         runOpenModalOneButton(focusviewbutton);
-        //runOpenModalButtons();
         focusviewtitle(focusviewbutton);
         focusviewitems(focusviewbutton);
     }
@@ -300,6 +300,7 @@ function TodoController() {
             notasks.textContent = '';
            }
            focusviewaddtasks(alltasks);
+           focusviewhidecheckbox();
         });
         
         //change due date format when printed on the table
@@ -325,6 +326,16 @@ function TodoController() {
     const focusviewdatemodal = (cell) => {
         const cellAttribute = 'data-' + 'modal-target';
         cell.setAttribute(cellAttribute, '#task-title-popup');
+    }
+
+    const focusviewhidecheckbox = () => {
+        const deletetaskbox = document.querySelector('#deletetaskbox');
+        deletetaskbox.addEventListener('change', () => {
+            let taskboxall = document.querySelectorAll('.checkbox-task');
+            for(let i = 0; i < taskboxall.length; i++) {
+                taskboxall[i].style.display = 'none';
+            }
+        })
     }
 
     const countCompletedTasks = (arrayoftasks) => {
@@ -416,7 +427,6 @@ function TodoController() {
             let taskprioritynum = parseInt(formObject.taskpriorityid);
             if (taskprioritynum > 6 || taskprioritynum < 1 || isNaN(taskprioritynum)) {
                 alert('Invalid Priority, Task will be assigned with priority of 1');
-                //Fix blank task priority number
             }
             else if(taskprioritynum != 1){
                 targetProject.changeTaskPriority(formObject.tasktextid, taskprioritynum);
