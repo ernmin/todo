@@ -356,6 +356,9 @@ function TodoController() {
     }
     //WHEN DELETING AN ITEM, USE REFRESHFOCUSVIEW AND TICK TOP CHECKBOX 
     // TO GIVE THE ILLUSION THAT THE SINGLE TASK IS DELETED
+    //TO DELETE add closeButtonEventListenerTask Method, the above two lines can go into this method.
+    //Check the CreateCard Method
+
 
     const countCompletedTasks = (arrayoftasks) => {
         let count = 0;

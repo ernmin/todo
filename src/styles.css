@@ -270,6 +270,10 @@ input {
     font-weight: bold;
 }
 
+.focus-close {
+    font-size: 1.25rem;
+}
+
 #submit {
     height: 50px;
 }
@@ -295,6 +299,10 @@ table {
 
 .checkbox-table {
     text-align: center;
+}
+
+td {
+    font-size: 0.8rem;
 }
 
 th {
