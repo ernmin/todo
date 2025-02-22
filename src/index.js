@@ -160,6 +160,13 @@ function TodoController() {
                         checkbox.addEventListener('change', () => {
                             targetProject.changeTaskComplete(obj.title);
                         })
+                        let closeButton = document.createElement('button');
+                        closeButton.setAttribute('data-close-button', 'true');
+                        closeButton.innerHTML ='&times;'
+                        closeButton.classList.add('close-button');
+                        closeButton.classList.add('focus-close');
+                        cell.appendChild(closeButton);
+                        closeButton.style.display = 'none';
                     }
                     else if(key == 'priority'){
                         cell.textContent = valueobject;
@@ -332,18 +339,23 @@ function TodoController() {
         const deletetaskbox = document.querySelector('#deletetaskbox');
         deletetaskbox.addEventListener('change', (event) => {
             let taskboxall = document.querySelectorAll('.checkbox-task');
+            let closeButtonall = document.querySelectorAll('.focus-close');
             if(event.target.checked){
                 for(let i = 0; i < taskboxall.length; i++) {
                     taskboxall[i].style.display = 'none';
+                    closeButtonall[i].style.display = 'block';
                 }
             }
             else{
                 for(let i = 0; i < taskboxall.length; i++) {
                     taskboxall[i].style.display = 'block';
+                    closeButtonall[i].style.display = 'none';
                 }
             }
         })
     }
+    //WHEN DELETING AN ITEM, USE REFRESHFOCUSVIEW AND TICK TOP CHECKBOX 
+    // TO GIVE THE ILLUSION THAT THE SINGLE TASK IS DELETED
 
     const countCompletedTasks = (arrayoftasks) => {
         let count = 0;
