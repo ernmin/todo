@@ -16,22 +16,6 @@ function TodoController() {
         console.log(allProjects[i].getAllTasks);
     }
 
-    
-    const addnewtask = todolist.getProject('default');
-    addnewtask.addTask('take out the trash now');
-    addnewtask.addTask('do the dishes now');
-    addnewtask.addTask('sweep the floor now');
-    addnewtask.addTask('testing')
-    addnewtask.addTask('take out the trash later');
-    addnewtask.addTask('do the dishes later');
-    addnewtask.addTask('sweep the floor later');
-    addnewtask.addTask('testing later');
-    addnewtask.addTask('do the dishes never');
-    addnewtask.addTask('sweep the floor never');
-    addnewtask.addTask('testing never');
-    addnewtask.addTask('do the dishes soon');
-    addnewtask.addTask('sweep the floor soon');
-    addnewtask.addTask('testing soon');
     console.log(todolist.getProject('default').getAllTasks());
     
     
@@ -64,7 +48,6 @@ function TodoController() {
 
 
     
-    
     const overlay = document.getElementById('overlay-bg');
 
     const runOpenModalButtons = () => {
@@ -94,8 +77,9 @@ function TodoController() {
             if(button.dataset.modalTarget == '#pop-up-focus'){
                 let newProjectButton = document.querySelector("#newProjectButton");
                 newProjectButton.disabled = true;
-
-            }
+                const deletetaskbox = document.querySelector('#deletetaskbox');
+                deletetaskbox.checked = false;
+            }       
             openModal(modal);
         });
     }
@@ -123,7 +107,7 @@ function TodoController() {
     }
 
 
-    const focusviewaddtasks = (alltasks) => {
+    const focusviewaddtasks = (alltasks, targetProject) => {
         const table = document.querySelector('#table-focus');
         alltasks.forEach(obj => {
             let row = table.insertRow();
@@ -220,7 +204,7 @@ function TodoController() {
         closeButton.setAttribute('data-close-button', 'true');
         closeButton.innerHTML ='&times;'
         closeButton.classList.add('close-button');
-        closeButton.id = 'button-' + projectObject.projectName;
+        closeButton.id = 'button-' + projectObject.projectName;//Like this ID may contain whitespace..
         const closeButtonid = closeButton.id;
         title.appendChild(document.createTextNode(projectObject.projectName));
         title.classList.add('project-card-title');
@@ -282,6 +266,7 @@ function TodoController() {
             const parentDiv = event.target.parentElement;
             const title = document.querySelector('#title-popup');
             title.textContent = parentDiv.id;
+            focusviewhidecheckbox();
         });
     }
 
@@ -306,8 +291,9 @@ function TodoController() {
            else {
             notasks.textContent = '';
            }
-           focusviewaddtasks(alltasks);
-           focusviewhidecheckbox();
+           focusviewaddtasks(alltasks, targetProject);
+           focusviewdeletetaskEventListener();
+           
         });
         
         //change due date format when printed on the table
@@ -337,7 +323,7 @@ function TodoController() {
 
     const focusviewhidecheckbox = () => {
         const deletetaskbox = document.querySelector('#deletetaskbox');
-        deletetaskbox.addEventListener('change', (event) => {
+        deletetaskbox.addEventListener('click', (event) => {
             let taskboxall = document.querySelectorAll('.checkbox-task');
             let closeButtonall = document.querySelectorAll('.focus-close');
             if(event.target.checked){
@@ -354,10 +340,44 @@ function TodoController() {
             }
         })
     }
+
+    //put this method to run when the modal is open
+    const focusviewdeletetaskEventListener = () => {
+        let project = document.querySelector("#title-popup").textContent;
+        let taskclosebutton = document.querySelectorAll('.focus-close');
+        for(let i = 0; i < taskclosebutton.length; i++){
+            taskclosebutton[i].addEventListener('click', () => {
+                let parent = taskclosebutton[i].parentElement;
+                let taskname = parent.nextElementSibling.textContent;
+                console.log(project, taskname);
+                const deleteTaskFromProject = todolist.getProject(project);
+                deleteTaskFromProject.deleteTask(taskname);
+                refreshfocusview();
+                let checkbox = document.querySelector("#deletetaskbox");
+
+                checkbox.click();
+                checkbox.click();
+            })
+        }
+
+    }
     //WHEN DELETING AN ITEM, USE REFRESHFOCUSVIEW AND TICK TOP CHECKBOX 
     // TO GIVE THE ILLUSION THAT THE SINGLE TASK IS DELETED
     //TO DELETE add closeButtonEventListenerTask Method, the above two lines can go into this method.
     //Check the CreateCard Method
+    //const deleteTaskFromProject = todolist.getProject('default');
+    //deleteTaskFromProject.deleteTask('take out the trash');
+    //click button
+    //get project
+    //get task name
+    //delete task
+    //refresh focus view
+    //tick top check box
+
+    /*const focusviewdeletetask = (deletetaskid) => {
+        deletetaskid = '#' + deletetaskid;
+        const deletetask = document.querySelector(deletetaskid);
+    }*/
 
 
     const countCompletedTasks = (arrayoftasks) => {
@@ -466,7 +486,8 @@ function TodoController() {
         let project = document.querySelector("#title-popup").textContent;
         let targetProject = todolist.getProject(project);
         let alltasks = targetProject.getAllTasks();
-        focusviewaddtasks(alltasks); //WHY IS THE SCOPE FOR THIS WRONG?
+        focusviewaddtasks(alltasks, targetProject);
+        focusviewdeletetaskEventListener(); //WHY IS THE SCOPE FOR THIS WRONG?
         removeAllCards();
         displayCard();
     }
@@ -572,6 +593,7 @@ function projectController() {
             if (targetTaskIndex > -1) {
                 const removedTask = tasks.splice(targetTaskIndex, 1);
                 console.log('Task ', removedTask, ' was removed');
+                storeAllTasks();
                 return removedTask[0];
             }
             else{
