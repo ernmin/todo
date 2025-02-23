@@ -338,6 +338,10 @@ input[type="checkbox"] {
         padding: 10px;
     }
 
+    li {
+        font-size: medium;
+    }
+
     .card-title {
         font-size: 2rem;
         font-family: 'Times New Roman', Times, serif;
