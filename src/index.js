@@ -509,10 +509,6 @@ function projectController() {
         const storeAllTasks = () => {
             let alltasksarray_serialized = JSON.stringify(tasks);
             console.log('serialize test', alltasksarray_serialized);
-            if(tasks.length === 0){
-                console.log('No Tasks to Store for this Project')
-                return;
-            }
             let taskKey = tasks[0].project;
             //IF THERE ARE NO TASKS THEN WHAT IS THE TASK KEY?
             localStorage.setItem(taskKey, alltasksarray_serialized);
