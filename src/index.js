@@ -155,6 +155,23 @@ function TodoController() {
                     else if(key == 'priority'){
                         cell.textContent = valueobject;
                         cell.classList.add('priority-table');
+                        cell.setAttribute('contentEditable', 'true');
+
+                        let currentpriority = "";
+                        cell.addEventListener('click', function() {
+                            currentpriority = this.textContent;
+                        });
+                        let newpriority = "";
+                        cell.addEventListener('focusout', function() {
+                            newpriority = this.textContent;
+                            targetProject.changeTaskPriority(obj.title, newpriority);
+                            removeAllCards();
+                            displayCard();
+                        });
+                        cell.addEventListener('input', function(event) {
+                            this.textContent = this.textContent.replace(/[^1-5]/g, '');
+                        });
+
                     }
                     else if(key == 'title'){
                         cell.textContent = valueobject;
