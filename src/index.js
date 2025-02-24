@@ -509,8 +509,7 @@ function projectController() {
         const storeAllTasks = () => {
             let alltasksarray_serialized = JSON.stringify(tasks);
             console.log('serialize test', alltasksarray_serialized);
-            let taskKey = tasks[0].project;
-            //IF THERE ARE NO TASKS THEN WHAT IS THE TASK KEY?
+            let taskKey = projectName;
             localStorage.setItem(taskKey, alltasksarray_serialized);
             //item goes into local storage. If I set item a second time with a different key, it will be written over
             let taskObject_reversed = JSON.parse(localStorage.getItem(taskKey));
