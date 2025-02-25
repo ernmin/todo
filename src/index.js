@@ -143,6 +143,8 @@ function TodoController() {
                         cell.classList.add('checkbox-table');
                         checkbox.addEventListener('change', () => {
                             targetProject.changeTaskComplete(obj.title);
+                            removeAllCards();
+                            displayCard();
                         })
                         let closeButton = document.createElement('button');
                         closeButton.setAttribute('data-close-button', 'true');
@@ -474,6 +476,7 @@ function TodoController() {
             const form = event.target;
             const formData = new FormData(form);
             const formObject = Object.fromEntries(formData.entries());
+            console.log(formObject, 'from newTaskForm');
             const targetProject = todolist.getProject(project);
             const taskadded = targetProject.addTask(formObject.tasktextid);
             if(taskadded > -1){
@@ -490,6 +493,10 @@ function TodoController() {
             else if(taskprioritynum != 1){
                 targetProject.changeTaskPriority(formObject.tasktextid, taskprioritynum);
             }
+            let taskdate = formObject.taskdateid;
+            console.log(taskdate, 'taskdateid is this');
+            targetProject.changedueDate(formObject.tasktextid, taskdate);
+
 
             refreshfocusview();
             
@@ -660,6 +667,7 @@ function projectController() {
             if (targetTaskIndex > -1) {
                 tasks[targetTaskIndex].completed = !tasks[targetTaskIndex].completed;
                 console.log('Task complete status is: ', tasks[targetTaskIndex].completed)
+                storeAllTasks();
                 return tasks[targetTaskIndex].completed;
             }
             else{
