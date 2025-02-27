@@ -115,18 +115,26 @@ function TodoController() {
                 let cell = row.insertCell();
                 if(key != 'project') {
                     if(key == 'dueDate'){
-                        cell.textContent = format(valueobject, "dd/MM/yyyy");
-                        focusviewdate(obj, cell);
-                        focusviewdatemodal(cell);
+                        //cell.textContent = format(valueobject, "dd/MM/yyyy");
+                        //focusviewdate(obj, cell);
+                        //focusviewdatemodal(cell);
                         //<input type=date id=dateInput>
-                        /*let inputDate = document.createElement('input');
+                        let inputDate = document.createElement('input');
                         inputDate.setAttribute('contentEditable', 'true');
                         inputDate.setAttribute('type', 'date');
+                        console.log(valueobject);
+                        let date = format(valueobject, "yyyy-MM-dd");
+                        inputDate.setAttribute('value', date);
                         console.log('valueobject is: ', valueobject, ' ', typeof(valueobject));
-                        inputDate.value = valueobject;
+                        //inputDate.defaultvalue = valueobject;
                         //inputDate.value = format(value, "dd/MM/yyyy");
-                        cell.appendChild(inputDate);*/
-                        //SEE CHATGPT ON DATEPICKERS
+                        cell.appendChild(inputDate);
+                        inputDate.addEventListener('change', function() {
+                            targetProject.changedueDate(obj.title, this.value);
+                            refreshfocusview();
+                        });
+                        
+                        
                     }
                     else if(key == 'completed'){
                         let checkbox = document.createElement('input');
@@ -323,7 +331,7 @@ function TodoController() {
 
     
     }
-    const focusviewdate = (taskobj, cell) => {
+    /*const focusviewdate = (taskobj, cell) => {
         cell.addEventListener('click', () => {
             const tasktitle = document.querySelector('#task-title-popup');
             tasktitle.textContent = taskobj.title;
@@ -333,7 +341,7 @@ function TodoController() {
             //New Modal Close Button
             //Only 1 modal open at a time
         })
-    }
+    }*/
 
     const focusviewdatemodal = (cell) => {
         const cellAttribute = 'data-' + 'modal-target';
@@ -478,6 +486,15 @@ function TodoController() {
             const formObject = Object.fromEntries(formData.entries());
             console.log(formObject, 'from newTaskForm');
             const targetProject = todolist.getProject(project);
+            let taskdate = formObject.taskdateid;
+            if (formObject.tasktextid == ""){
+                alert('Please Enter a Task');
+                return;
+            }
+            else if (taskdate == ""){
+                alert('Please Enter a Date');
+                return;
+            }
             const taskadded = targetProject.addTask(formObject.tasktextid);
             if(taskadded > -1){
                 alert('Duplicate Task');
@@ -493,12 +510,14 @@ function TodoController() {
             else if(taskprioritynum != 1){
                 targetProject.changeTaskPriority(formObject.tasktextid, taskprioritynum);
             }
-            let taskdate = formObject.taskdateid;
+            
+            
             console.log(taskdate, 'taskdateid is this');
             targetProject.changedueDate(formObject.tasktextid, taskdate);
 
 
             refreshfocusview();
+            
             
         })
         
@@ -555,7 +574,8 @@ function projectController() {
                 //let newDate = new Date(date);
                 //INSTEAD OF NEW POP UP FOR DATES, TYPE IN THE FORMAT AND REJECT IT IF IT IS NOT IN THE CORRECT FORMAT
                 tasks[targetTaskIndex].dueDate = new Date(date);
-                console.log('New due date is: ', format(tasks[targetTaskIndex].dueDate, 'yyyy-MM-dd'));
+                //console.log('New due date is: ', format(tasks[targetTaskIndex].dueDate, 'yyyy-MM-dd'));
+                storeAllTasks();
                 return tasks[targetTaskIndex].dueDate;
             }
             else{
