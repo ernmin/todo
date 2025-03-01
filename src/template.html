@@ -63,7 +63,7 @@
                         <input type="checkbox" class="checkboxtask" name="checkboxtaskid">
                         <input type="text" class="tasktext" name="tasktextid" placeholder="Task">
                         <input type="date" class="taskdate" name="taskdateid">
-                        <input type="number" min="1" max="6" class="taskpriority" name="taskpriorityid" placeholder="Priority">
+                        <input type="number" min="1" max="5" class="taskpriority" name="taskpriorityid" placeholder="Priority">
                         <button id="newtasksubmit" class="btn btn-primary">OK!</button>
                         <div class="newtaskrow">
                         
@@ -78,12 +78,8 @@
                 <button data-close-button class="close-button">&times;</button>
             </div>
             <div class="tasks-body">
-                <form id="datepickerform">
-                    <input type="date" name="taskdateedit">
-                </form>
             </div>
         </div>
-    
         <div id="overlay-bg"></div>
         <div class="bottom-bar">
             <button id="newProjectButton" data-modal-target="#pop-up" class="btn btn-primary" >+ New Project</button>

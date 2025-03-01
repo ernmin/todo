@@ -6,8 +6,6 @@ function TodoController() {
     todolist.retrieveProject();
     console.log(typeof todolist);
     todolist.addProject(todolist.createProject('default'));
-    todolist.addProject(todolist.createProject('default')); //test duplicate project
-    todolist.addProject(todolist.createProject('Home'));
     todolist.listProjects();
     const allProjects = todolist.listProjects();
     console.log('allprojects: ',allProjects);
@@ -17,37 +15,7 @@ function TodoController() {
     }
 
     console.log(todolist.getProject('default').getAllTasks());
-    
-    
-    /*
-    const deleteTaskFromProject = todolist.getProject('default');
-    deleteTaskFromProject.deleteTask('take out the trash');
-    deleteTaskFromProject.deleteTask('take out');
-    addnewtask.addTask('take out the trash');
-    addnewtask.addTask('do the dishes');
-    const changePriority = todolist.getProject('default');
-    changePriority.changeTaskPriority('take out the trash', 3);
-    changePriority.changeTaskComplete('take out the trash');
-    console.log(todolist.getProject('default').getAllTasks());
-    addnewtask.addTask('take out the trash');
-    todolist.addProject(todolist.createProject('diffprojsametask'));
-    const othernewtask = todolist.getProject('diffprojsametask');
-    othernewtask.addTask('take out the trash');
-    console.log(othernewtask.getAllTasks());
-    todolist.listProjects();
-    const newDate = '2000-05-03'; //think about how to input dates when changing the format
-    othernewtask.changedueDate('take out the trash', newDate);
-    console.log(othernewtask.getAllTasks());*/
 
-
-    //create container for cards
-    //create form for projects
-    //create form for tasks
-    //refresh screen after a project/task is added
-    //for the date object, use the format method to output the correct format
-
-
-    
     const overlay = document.getElementById('overlay-bg');
 
     const runOpenModalButtons = () => {
@@ -61,12 +29,9 @@ function TodoController() {
                 if(button.dataset.modalTarget == '#pop-up'){
                     document.querySelector("#project-title").focus();
                 }
-
-                
-                //ADD A METHOD HERE TO POPULATE THE GRID WITH THE TODOS
-            })
-        })
-    }
+            });
+        });
+    };
 
     runOpenModalButtons();
 
@@ -133,7 +98,6 @@ function TodoController() {
                             targetProject.changedueDate(obj.title, this.value);
                             refreshfocusview();
                         });
-                        
                         
                     }
                     else if(key == 'completed'){
@@ -203,14 +167,11 @@ function TodoController() {
 
                 }
             })
-            
-
            })
     }
 
     runCloseModalButtons();
 
-    
     const openModal = (modal) => {
         if (modal == null) return;
         modal.classList.add('bg-active');
@@ -223,7 +184,6 @@ function TodoController() {
         overlay.classList.remove('bg-active');
     }
 
-
     const createCard = (projectObject) => {
         const card = document.createElement('div');
         const title = document.createElement('div');
@@ -231,7 +191,7 @@ function TodoController() {
         closeButton.setAttribute('data-close-button', 'true');
         closeButton.innerHTML ='&times;'
         closeButton.classList.add('close-button');
-        closeButton.id = 'button-' + projectObject.projectName;//Like this ID may contain whitespace..
+        closeButton.id = 'button-' + projectObject.projectName;
         const closeButtonid = closeButton.id;
         title.appendChild(document.createTextNode(projectObject.projectName));
         title.classList.add('project-card-title');
@@ -368,7 +328,6 @@ function TodoController() {
         })
     }
 
-    //put this method to run when the modal is open
     const focusviewdeletetaskEventListener = () => {
         let project = document.querySelector("#title-popup").textContent;
         let taskclosebutton = document.querySelectorAll('.focus-close');
@@ -400,12 +359,6 @@ function TodoController() {
     //delete task
     //refresh focus view
     //tick top check box
-
-    /*const focusviewdeletetask = (deletetaskid) => {
-        deletetaskid = '#' + deletetaskid;
-        const deletetask = document.querySelector(deletetaskid);
-    }*/
-
 
     const countCompletedTasks = (arrayoftasks) => {
         let count = 0;
@@ -460,6 +413,9 @@ function TodoController() {
     }
 
     const newProjectForm = () => {
+        document.querySelector('#project-title').addEventListener("input", function(event) {
+            this.value = this.value.replace(/\s/g, "");
+        });
         document.querySelector("#newprojectform").addEventListener("submit", function(event){
             event.preventDefault();
             const form = event.target;
@@ -522,7 +478,6 @@ function TodoController() {
         })
         
     }
-    //Add functionality for the DATE
 
     const refreshfocusview = () => {
         focusviewitemsdelete();
@@ -535,8 +490,6 @@ function TodoController() {
         displayCard();
     }
     
-    
-
     displayCard();
     newProjectForm();
     newTaskForm();
@@ -571,10 +524,7 @@ function projectController() {
         const changedueDate = (description, date) => {
             const targetTaskIndex = getTask(description);
             if (targetTaskIndex > -1) {
-                //let newDate = new Date(date);
-                //INSTEAD OF NEW POP UP FOR DATES, TYPE IN THE FORMAT AND REJECT IT IF IT IS NOT IN THE CORRECT FORMAT
                 tasks[targetTaskIndex].dueDate = new Date(date);
-                //console.log('New due date is: ', format(tasks[targetTaskIndex].dueDate, 'yyyy-MM-dd'));
                 storeAllTasks();
                 return tasks[targetTaskIndex].dueDate;
             }
@@ -603,9 +553,7 @@ function projectController() {
                 console.log(newTask, ' was added');
                 return;
             }
-            
-            //cannot add duplicate tasks
-            //BUTTON BELOW ALL THE TASKS
+
         };
 
         const renameTask = (description, newDescription) => {
@@ -643,7 +591,6 @@ function projectController() {
             else{
                 return;
             }
-            //MOUSE OVER TO REVEAL CROSS TO DELETE TASK
         }
         const getAllTasks = () => tasks;
 
@@ -791,7 +738,5 @@ function projectController() {
     
     return { createProject, addProject, storeProject, retrieveProject, deleteProject, listProjects, getProject, };
 }
-
-
 
 TodoController();
