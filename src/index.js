@@ -80,10 +80,6 @@ function TodoController() {
                 let cell = row.insertCell();
                 if(key != 'project') {
                     if(key == 'dueDate'){
-                        //cell.textContent = format(valueobject, "dd/MM/yyyy");
-                        //focusviewdate(obj, cell);
-                        //focusviewdatemodal(cell);
-                        //<input type=date id=dateInput>
                         let inputDate = document.createElement('input');
                         inputDate.setAttribute('contentEditable', 'true');
                         inputDate.setAttribute('type', 'date');
@@ -91,8 +87,6 @@ function TodoController() {
                         let date = format(valueobject, "yyyy-MM-dd");
                         inputDate.setAttribute('value', date);
                         console.log('valueobject is: ', valueobject, ' ', typeof(valueobject));
-                        //inputDate.defaultvalue = valueobject;
-                        //inputDate.value = format(value, "dd/MM/yyyy");
                         cell.appendChild(inputDate);
                         inputDate.addEventListener('change', function() {
                             targetProject.changedueDate(obj.title, this.value);
@@ -176,12 +170,14 @@ function TodoController() {
         if (modal == null) return;
         modal.classList.add('bg-active');
         overlay.classList.add('bg-active');
+        document.body.classList.add("no-scroll");
     }
 
     const closeModal = (modal) => {
         if (modal == null) return;
         modal.classList.remove('bg-active');
         overlay.classList.remove('bg-active');
+        document.body.classList.remove("no-scroll");
     }
 
     const createCard = (projectObject) => {
@@ -206,8 +202,8 @@ function TodoController() {
         tasksOnCardDiv.classList.add('task-list');
         const orderedlist = document.createElement('ol');
         const tasksOnCard = listItemsOnCard(projectObject);
-        if (tasksOnCard.length > 7) {
-            for(let i = 0; i < 7; i++){
+        if (tasksOnCard.length > 10) {
+            for(let i = 0; i < 10; i++){
                 const lineItem = document.createElement('li');
                 lineItem.textContent = tasksOnCard[i].title;
                 orderedlist.appendChild(lineItem);
@@ -282,30 +278,6 @@ function TodoController() {
            focusviewdeletetaskEventListener();
            
         });
-        
-        //change due date format when printed on the table
-        //When focus view is open, don't allow scrolling in the background
-        //Scrolling in a modal
-        //DELETE BUTTON FOR TASKS
-        //ADD TASKS BUTTON
-
-    
-    }
-    /*const focusviewdate = (taskobj, cell) => {
-        cell.addEventListener('click', () => {
-            const tasktitle = document.querySelector('#task-title-popup');
-            tasktitle.textContent = taskobj.title;
-            
-            console.log('focusviewtask', taskobj);
-            //How to open the new modal?
-            //New Modal Close Button
-            //Only 1 modal open at a time
-        })
-    }*/
-
-    const focusviewdatemodal = (cell) => {
-        const cellAttribute = 'data-' + 'modal-target';
-        cell.setAttribute(cellAttribute, '#task-title-popup');
     }
 
     const focusviewhidecheckbox = () => {
@@ -347,18 +319,6 @@ function TodoController() {
         }
 
     }
-    //WHEN DELETING AN ITEM, USE REFRESHFOCUSVIEW AND TICK TOP CHECKBOX 
-    // TO GIVE THE ILLUSION THAT THE SINGLE TASK IS DELETED
-    //TO DELETE add closeButtonEventListenerTask Method, the above two lines can go into this method.
-    //Check the CreateCard Method
-    //const deleteTaskFromProject = todolist.getProject('default');
-    //deleteTaskFromProject.deleteTask('take out the trash');
-    //click button
-    //get project
-    //get task name
-    //delete task
-    //refresh focus view
-    //tick top check box
 
     const countCompletedTasks = (arrayoftasks) => {
         let count = 0;
@@ -466,15 +426,10 @@ function TodoController() {
             else if(taskprioritynum != 1){
                 targetProject.changeTaskPriority(formObject.tasktextid, taskprioritynum);
             }
-            
-            
             console.log(taskdate, 'taskdateid is this');
             targetProject.changedueDate(formObject.tasktextid, taskdate);
 
-
             refreshfocusview();
-            
-            
         })
         
     }
@@ -687,7 +642,6 @@ function projectController() {
         //when retrieving loop through the array and recreate the project from scratch
         //add the recreated project into the main project array.
         //key can just be the project name
-
     }
 
     function deleteProject(name) {
