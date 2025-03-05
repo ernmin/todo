@@ -82,6 +82,7 @@ function TodoController() {
                     if(key == 'dueDate'){
                         let inputDate = document.createElement('input');
                         inputDate.setAttribute('contentEditable', 'true');
+                        inputDate.classList.add('listtodaydate');
                         inputDate.setAttribute('type', 'date');
                         console.log(valueobject);
                         let date = format(valueobject, "yyyy-MM-dd");
@@ -162,6 +163,7 @@ function TodoController() {
                 }
             })
            })
+           datePickerAll();
     }
 
     runCloseModalButtons();
@@ -206,6 +208,10 @@ function TodoController() {
             for(let i = 0; i < 10; i++){
                 const lineItem = document.createElement('li');
                 lineItem.textContent = tasksOnCard[i].title;
+                if(tasksOnCard[i].completed == true){
+                    tasksOnCard[i].style.textDecoration  = "line-through";
+                    console.log('strikethrough!');
+                }
                 orderedlist.appendChild(lineItem);
             }
             const seemore = document.createElement('li')
@@ -216,6 +222,10 @@ function TodoController() {
             tasksOnCard.forEach(task => {
                 const lineItem = document.createElement('li');
                 lineItem.textContent = task.title;
+                if(task.completed == true){
+                    lineItem.style.textDecoration = "line-through";
+                    console.log('strikethrough!');
+                }
                 orderedlist.appendChild(lineItem);
             });
         }
@@ -389,9 +399,31 @@ function TodoController() {
             popup.classList.remove('bg-active');
             let overlaybg = document.querySelector('#overlay-bg');
             overlaybg.classList.remove('bg-active');
+            document.body.classList.remove("no-scroll");
             displayCard();
         })
     }
+
+    const datePickerToday = () => {
+        let datePicker = document.querySelector("#taskdatepicker");
+        let today = new Date().toISOString().split("T")[0];
+        datePicker.setAttribute("min", today);
+        
+
+    }
+
+    datePickerToday();
+
+    const datePickerAll = () => {
+        let datePickerAll = document.querySelectorAll(".listtodaydate");
+        let today = new Date().toISOString().split("T")[0];
+        for(let i = 0; i < datePickerAll.length; i++){
+            datePickerAll[i].setAttribute("min", today);
+        }
+    }
+
+    datePickerAll();
+    
 
     const newTaskForm = () => {
         document.querySelector("#taskform").addEventListener("submit", function(event){
